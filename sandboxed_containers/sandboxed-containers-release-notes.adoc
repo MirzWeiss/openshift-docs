@@ -1,17 +1,17 @@
 :_content-type: ASSEMBLY
-[id="sandboxed-containers-4-9-release-notes"]
-= {sandboxed-containers-first} 1.1 release notes
+[id="sandboxed-containers-4-10-release-notes"]
+= {sandboxed-containers-first} {sandboxed-containers-version} release notes
 include::_attributes/common-attributes.adoc[]
 :context: sandboxed-containers-release-notes
 
 toc::[]
 
-[id="sandboxed-containers-1-1-about-this-release"]
+[id="sandboxed-containers-1-2-about-this-release"]
 == About this release
 
-These release notes track the development of {sandboxed-containers-first} 1.1 alongside Red Hat {product-title} {product-version}.
+These release notes track the development of {sandboxed-containers-first} {sandboxed-containers-version} alongside Red Hat {product-title} {product-version}.
 
-This product is currently in Technology Preview. {sandboxed-containers-first} is not intended for production use. For more information, see the Red Hat Customer Portal link:https://access.redhat.com/support/offerings/techpreview[support scope] for features in Technology Preview.
+This product was previously released as a Technology Preview product in {product-title} 4.9 and is now generally available and enabled by default in {product-title} 4.10.
 
 [id="sandboxed-containers-1-1-new-features-and-enhancements"]
 == New features and enhancements
@@ -77,14 +77,3 @@ Issued: 2021-10-21
 {sandboxed-containers-first} release 1.1.0 is now available. This advisory contains an update for {sandboxed-containers-first} with enhancements and bug fixes.
 
 The list of bug fixes included in the update is documented in the link:https://access.redhat.com/errata/RHEA-2021:3941[RHEA-2021:3941] advisory.
-//
-//#link:https://access.redhat.com/errata/product/290/ver=4.9/rhel---8/x86_64/RHEA-2021:3941[]
-//
-//[id="sandboxed-containers-1-0-2"]
-//=== RHBA-2021:3751 - {sandboxed-containers-first} 1.0.2 bug fix advisory
-//
-//Issued: 2021-10-07
-//
-//{sandboxed-containers-first} release 1.0.2 is now available. This advisory contains an update for {sandboxed-containers-first} with bug fixes.
-//
-//The list of bug fixes that are included in the update is documented in the link:https://access.redhat.com/errata/product/290/ver=4.8/rhel---8/x86_64/RHBA-2021:3751[RHBA-2021:3751] advisory.
