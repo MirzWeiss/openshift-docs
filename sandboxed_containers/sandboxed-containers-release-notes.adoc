@@ -13,7 +13,7 @@ These release notes track the development of {sandboxed-containers-first} {sandb
 
 This product was previously released as a Technology Preview product in {product-title} 4.9 and is now generally available and enabled by default in {product-title} 4.10.
 
-[id="sandboxed-containers-1-1-new-features-and-enhancements"]
+[id="sandboxed-containers-1-2-new-features-and-enhancements"]
 == New features and enhancements
 
 [id="fips-compatability-rn"]
@@ -31,7 +31,7 @@ The {sandboxed-containers-operator} now includes a must-gather image, allowing y
 
 You can now install the {sandboxed-containers-operator} in a disconnected environment. For more information, see the xref:../sandboxed_containers/deploying-sandboxed-container-workloads.adoc#deploying-sandboxed-containers-workloads_additional-resources[Additional resources for Deploying {sandboxed-containers-first} workloads].
 
-[id="sandboxed-containers-1-1-bug-fixes"]
+[id="sandboxed-containers-1-2-bug-fixes"]
 == Bug fixes
 
 * Previously, when running Fedora on {sandboxed-containers-first}, some packages required file access permission changes that {product-title} did not grant to containers by default. With this release, these permissions are granted by default. (link:https://bugzilla.redhat.com/show_bug.cgi?id=1915377[*BZ#1915377*])
@@ -44,7 +44,7 @@ You can now install the {sandboxed-containers-operator} in a disconnected enviro
 
 * Previously, there were instances where the Operator Hub in the {product-title} web console did not display icons for an Operator. With this release, icons are always displayed. (link:https://bugzilla.redhat.com/show_bug.cgi?id=2019380[*BZ#9019380*])
 
-[id="sandboxed-containers-1-1-known-issues"]
+[id="sandboxed-containers-1-2-known-issues"]
 == Known issues
 
 * If you are using {sandboxed-containers-first}, you might receive SELinux denials accessing files or directories mounted from the `hostPath` volume in an {product-title} cluster. These denials can occur even when running privileged sandboxed containers, since privileged sandboxed containers do not disable SELinux checks.
@@ -55,10 +55,10 @@ If the mounted files or directories do not have specific SELinux requirements on
 +
 Automatic relabeling is not an option when mounted files or directories are expected to have specific SELinux labels on the host. Instead, you can set custom SELinux rules on the host in order to allow virtiofsd to access these specific labels. (link:https://bugzilla.redhat.com/show_bug.cgi?id=1904609[*BZ#1904609*])
 
-[id="sandboxed-containers-1-1-asynchronous-errata-updates"]
+[id="sandboxed-containers-1-2-asynchronous-errata-updates"]
 == Asynchronous errata updates
 
-Security, bug fix, and enhancement updates for {sandboxed-containers-first} {product-version} are released as asynchronous errata through the Red Hat Network. All {product-title} {product-version} errata is https://access.redhat.com/downloads/content/290/[available on the Red Hat Customer Portal]. See the https://access.redhat.com/support/policy/updates/openshift[{product-title} Life Cycle] for more information about asynchronous errata.
+Security, bug fix, and enhancement updates for {sandboxed-containers-first} {sandboxed-containers-version} are released as asynchronous errata through the Red Hat Network. All {product-title} {product-version} errata is https://access.redhat.com/downloads/content/290/[available on the Red Hat Customer Portal]. See the https://access.redhat.com/support/policy/updates/openshift[{product-title} Life Cycle] for more information about asynchronous errata.
 
 Red Hat Customer Portal users can enable errata notifications in the account settings for Red Hat Subscription Management (RHSM). When errata notifications are enabled, users are notified via email whenever new errata relevant to their registered systems are released.
 
@@ -67,13 +67,13 @@ Red Hat Customer Portal users can enable errata notifications in the account set
 Red Hat Customer Portal user accounts must have systems registered and consuming {product-title} entitlements for {product-title} errata notification emails to generate.
 ====
 
-This section will continue to be updated over time to provide notes on enhancements and bug fixes for future asynchronous errata releases of {sandboxed-containers-first} 1.1.0.
+This section will continue to be updated over time to provide notes on enhancements and bug fixes for future asynchronous errata releases of {sandboxed-containers-first} {sandboxed-containers-version}.
 
-[id="sandboxed-containers-1-1-0"]
-=== RHEA-2021:3941 - {sandboxed-containers-first} 1.1.0 image release, bug fix,and enhancement advisory
+[id="sandboxed-containers-1-2-0"]
+=== RHEA-2021:3941 - {sandboxed-containers-first} {sandboxed-containers-version}.0 image release, bug fix,and enhancement advisory
 
 Issued: 2021-10-21
 
-{sandboxed-containers-first} release 1.1.0 is now available. This advisory contains an update for {sandboxed-containers-first} with enhancements and bug fixes.
+{sandboxed-containers-first} release {sandboxed-containers-version}.0 is now available. This advisory contains an update for {sandboxed-containers-first} with enhancements and bug fixes.
 
 The list of bug fixes included in the update is documented in the link:https://access.redhat.com/errata/RHEA-2021:3941[RHEA-2021:3941] advisory.
