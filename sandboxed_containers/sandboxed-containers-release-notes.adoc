@@ -16,20 +16,26 @@ This product was previously released as a Technology Preview product in {product
 [id="sandboxed-containers-1-2-new-features-and-enhancements"]
 == New features and enhancements
 
-[id="fips-compatability-rn"]
-=== FIPS compatibility
+[id="kata-metrics-rn"]
+=== Kata specific metrics and dashboard
 
-FIPS mode is now automatically enabled for {sandboxed-containers-first}. {sandboxed-containers-first} deployed on an {product-title} cluster installed in FIPS mode will not taint the cluster's FIPS support. For more information, see xref:../sandboxed_containers/understanding-sandboxed-containers.adoc#security-compliance-nist_understanding-sandboxed-containers[Understanding compliance and risk management].
+The {sandboxed-containers-operator} now deploys an osc-monitor daemonset. This enables the collection of metrics specific to workloads running in sandboxed containers (including metrics about the hypervisor and the Guest OS instances). In addition, a pre-configured dashboard provides insights into your {sandboxed-containers-first} components, such as the total number of lightweight VMs enabled in a cluster and the CPU/memory consumption per VM.
+ All metrics, as well as the dashboard, are available in the web console. For more information, see xref:../sandboxed_containers/monitoring-sandboxed-containers.adoc#monitoring-sandboxed-containers[Monitoring OpenShift sandboxed containers].
 
-[id="collect-resources-with-must-gather-rn"]
-=== Collect resources with must-gather
+[id="enhanced-logging-rn"]
+=== Enhanced logging
 
-The {sandboxed-containers-operator} now includes a must-gather image, allowing you to collect custom resources and log files specific to this Operator and the underlying runtime components for diagnostic purposes. For more information, see xref:../sandboxed_containers/troubleshooting-sandboxed-containers.adoc#troubleshooting-sandboxed-containers[Collecting {sandboxed-containers-first} data for Red Hat Support].
+//The {sandboxed-containers-operator} now includes a must-gather image, allowing you to collect custom resources and log files specific to this Operator and the underlying runtime components for diagnostic purposes. For more information, see xref:../sandboxed_containers/troubleshooting-sandboxed-containers.adoc#troubleshooting-sandboxed-containers[Collecting {sandboxed-containers-first} data for Red Hat Support].
 
-[id="sandboxed-containers-disconnected-environments-rn"]
-=== Disconnected environments
+[id="node-eligibility-rn"]
+=== Check node eligibility to run {sandboxed-containers-first}
 
-You can now install the {sandboxed-containers-operator} in a disconnected environment. For more information, see the xref:../sandboxed_containers/deploying-sandboxed-container-workloads.adoc#deploying-sandboxed-containers-workloads_additional-resources[Additional resources for Deploying {sandboxed-containers-first} workloads].
+This release introduces the functionality of determining the eligibility of cluster nodes to run Kata containers. For using this functionality, the 'checkNodeEligibility' config needs to be enabled when creating the KataConfig custom resource.
+When it's enabled the sandboxed containers operator will look for the node label "feature.node.kubernetes.io/runtime.kata" to select the candidate nodes for installing Kata containers runtime.
+This feature relies on Node Feature Discovery (NFD) operator for detecting the node capabilities and subsequently adding the "feature.node.kubernetes.io/runtime.kata" label for eligible nodes.
+The cluster administrator needs to deploy Node Feature Discovery (NFD) Operator and create a specific "NodeFeatureDiscovery" custom resource to detect the required node capabilities for running Kata containers. NFD operator will add the "feature.node.kubernetes.io/runtime.kata" label to all eligible nodes in the cluster.
+The sandboxed operator uses this label to select the the candidate nodes for installation.
+//For more information, see the xref:../sandboxed_containers/deploying-sandboxed-container-workloads.adoc#deploying-sandboxed-containers-workloads_additional-resources[Additional resources for Deploying {sandboxed-containers-first} workloads].
 
 [id="sandboxed-containers-1-2-bug-fixes"]
 == Bug fixes
