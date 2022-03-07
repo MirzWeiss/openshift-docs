@@ -71,6 +71,81 @@ If the mounted files or directories do not have specific SELinux requirements on
 +
 Automatic relabeling is not an option when mounted files or directories are expected to have specific SELinux labels on the host. Instead, you can set custom SELinux rules on the host in order to allow virtiofsd to access these specific labels. (link:https://bugzilla.redhat.com/show_bug.cgi?id=1904609[*BZ#1904609*])
 
+* You might encounter an issue where `machine-config-operator` (MCO) pod changes to `CrashLoopBackOff` state and the "openshift.io/scc" annotation of the POD shows "sandboxed-containers-operator-scc" instead of the default "hostmount-anyuid".
++
+If you encounter this issue, do the following steps:
++
+. Change the `selinuxOptions` strategy by running the following command:
++
+[source,terminal]
+----
+oc patch scc sandboxed-containers-operator-scc --type=merge --patch '{"seLinuxContext":{"type": "RunAsAny"}}'
+----
+
+. Scale a deployment by running the following command:
++
+[source,terminal]
+----
+oc scale deployments/machine-config-operator -n openshift-machine-config-operator --replicas=0
+----
+
+. Scale a deployment again by running the following command:
++
+[source,terminal]
+----
+oc scale deployments/machine-config-operator -n openshift-machine-config-operator --replicas=1
+----
+
+. Change the `selinuxOptions` strategy by running the following command:
++
+[source,terminal]
+----
+oc patch scc sandboxed-containers-operator-scc --type=merge --patch '{"seLinuxContext":{"type": "MustRunAs"}}'
+----
+
+. Verify that the `hostmount-anyuid` SCC is applied to the `machine-config-operator` POD by running the following command:
++
+[source,terminal]
+----
+oc get pods -n openshift-machine-config-operator -l k8s-app=machine-config-operator -o yaml | grep scc
+openshift.io/scc: hostmount-anyuid
+----
++
+(link:https://bugzilla.redhat.com/show_bug.cgi?id=2057545[*BZ#2057545*])
+
+* The {sandboxed-containers-operator} pods that utilize container CPU resource limits to increase the number of available CPUs for the pod may receive fewer CPUs than requested. If the functionality is available inside the container, you can diagnose CPU resources by `oc rsh <pod>` and running `lscpu`. 
++
+[source,terminal]
+----
+# lscpu
+CPU(s):                          16
+On-line CPU(s) list:             0-12,14,15
+Off-line CPU(s) list:            13
+----
++
+The list of available offline CPUs will likely change from run to run in an unpredictable manner.
++
+As a workaround, you can use a pod annotation to request additional CPUs rather than setting a CPU limit. The method of allocating processors is different, and CPUs requested by means of pod annotation are not affected by this issue. Rather than setting a CPU limit, the following `annotation` should be added to the metadata of the pod:
++
+[source,yaml]
+----
+metadata:
+  annotations:
+    io.katacontainers.config.hypervisor.default_vcpus: "16"
+----
++
+(link:https://issues.redhat.com/browse/KATA-1376[*KATA-1376*])
+
+* The progress of the runtime installation is shown in the `status` section of the `kataConfig` CR. However the progress is not shown if all of the following conditions are true:
+
+** The cluster has a machine config pool `worker` without any members (`machinecount=0`)
+** No `kataConfigPoolSelector` is specified to select nodes for installation
+
++
+In this case, the installation will start on the master nodes because the operator assumes it is a converged cluster where nodes have both master and worker roles. The `status` section of the `kataConfig` CR is not updated during the installation. (link:https://issues.redhat.com/browse/KATA-1017[*KATA-1017*])
+
+* When creating the `KataConfig` CR and observing the POD status under `openshift-sandboxed-containers-operator` namespace, a huge number of restarts for monitor PODs is shown.  The monitor PODs use a specific SELinux policy that is installed as part of `sandboxed-containers` extension installation. The monitor POD gets created immediately, however the SELinux policy is not yet available, which results in a POD creation error, followed by a POD restart. When the extension installation succeeds, the SELinux policy will be available and the monitor POD will transition to `Running` state. This does not affect any functionality of the {sandboxed-containers-operator}. (link:https://issues.redhat.com/browse/KATA-1338[*KATA-1338*])
+
 [id="sandboxed-containers-1-2-asynchronous-errata-updates"]
 == Asynchronous errata updates
 
