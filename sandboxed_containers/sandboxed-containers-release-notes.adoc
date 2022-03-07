@@ -60,6 +60,16 @@ Users can now install {sandboxed-containers-first} on AWS bare-metal clusters. T
 
 * Previously, there were instances where the Operator Hub in the {product-title} web console did not display icons for an Operator. With this release, icons are always displayed. (link:https://bugzilla.redhat.com/show_bug.cgi?id=2019380[*BZ#9019380*])
 
+* Previously, using loop devices in a Kata Container was not possible due to missing kernel modules. With this release, these kernel modules are included in the package. (link:https://issues.redhat.com/browse/KATA-1334[*KATA-1334*])
+
+* Previously, the {sandboxed-containers-operator} bundle was using an incorrect value for the `com.redhat.openshift.versions` label when building the container image. With this release, the Operator is available in the correct operator catalog for {product-title} version {product-version}. (link:https://issues.redhat.com/browse/KATA-1019[*KATA-1019*])
+
+* Previously, the `MachineConfigPool` (MCP) created by the Operator to track the nodes with `Kata` runtime installed was not automatically removed on deletion of the `KataConfig` custom resource (CR). With this release, the deletion of `KataConfig` CR results in the removal of the `kata-oc` MCP. (link:https://issues.redhat.com/browse/KATA-1184[*KATA-1184*])
+
+* Previously, when you created a `kataConfigPoolSelector` field and changed it, the {sandboxed-containers-operator} did not apply the change. With this release, the Operator acts on changes to the `kataConfigPoolSelector` field in the CRD and adapts installations of the runtime on nodes accordingly. (link:https://issues.redhat.com/browse/KATA-1190[*KATA-1190*])
+
+* Previously, the `SourceImage` field was displayed on the web console and using the field had no effect on the installation. With this release, the unused `SourceImage` field is no longer displayed when creating `KataConfig` custom resource from the web console. (link:https://issues.redhat.com/browse/KATA-1015[*KATA-1015*])
+
 [id="sandboxed-containers-1-2-known-issues"]
 == Known issues
 
