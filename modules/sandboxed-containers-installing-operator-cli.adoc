@@ -81,7 +81,7 @@ spec:
   name: sandboxed-containers-operator
   source: redhat-operators
   sourceNamespace: openshift-marketplace
-  startingCSV: sandboxed-containers-operator.v1.1.0
+  startingCSV: sandboxed-containers-operator.v1.2.0
 ----
 
 .. Create the `Subscription` object:
