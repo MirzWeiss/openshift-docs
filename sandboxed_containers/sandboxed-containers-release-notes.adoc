@@ -20,12 +20,13 @@ This product was previously released as a Technology Preview product in {product
 === Kata specific metrics and dashboard
 
 The {sandboxed-containers-operator} now deploys an osc-monitor daemonset. This enables the collection of metrics specific to workloads running in sandboxed containers (including metrics about the hypervisor and the Guest OS instances). In addition, a pre-configured dashboard provides insights into your {sandboxed-containers-first} components, such as the total number of lightweight VMs enabled in a cluster and the CPU/memory consumption per VM.
- All metrics, as well as the dashboard, are available in the web console. For more information, see xref:../sandboxed_containers/monitoring-sandboxed-containers.adoc#monitoring-sandboxed-containers[Monitoring OpenShift sandboxed containers].
+ All metrics, as well as the dashboard, are available in the web console. For more information, see xref:../sandboxed_containers/monitoring-sandboxed-containers.adoc#monitoring-sandboxed-containers[Monitoring {sandboxed-containers-first}].
 
 [id="enhanced-logging-rn"]
 === Enhanced logging
 
-//The {sandboxed-containers-operator} now includes a must-gather image, allowing you to collect custom resources and log files specific to this Operator and the underlying runtime components for diagnostic purposes. For more information, see xref:../sandboxed_containers/troubleshooting-sandboxed-containers.adoc#troubleshooting-sandboxed-containers[Collecting {sandboxed-containers-first} data for Red Hat Support].
+Administrators can now collect enhanced logs for {sandboxed-containers-first} runtime components. Enhanced logs are available when the CRI-O log level is set to `debug`. These logs are collected by the must-gather tool, or can be viewed in the node journal.
+//For more information, see xref:../sandboxed_containers/troubleshooting-sandboxed-containers.adoc#sandboxed-containers-enable-debug-logs_troubleshooting-sandboxed-containers[Enabling debug logs for {sandboxed-containers-first}].
 
 [id="node-eligibility-rn"]
 === Check node eligibility to run {sandboxed-containers-first}
@@ -36,6 +37,11 @@ This feature relies on Node Feature Discovery (NFD) operator for detecting the n
 The cluster administrator needs to deploy Node Feature Discovery (NFD) Operator and create a specific "NodeFeatureDiscovery" custom resource to detect the required node capabilities for running Kata containers. NFD operator will add the "feature.node.kubernetes.io/runtime.kata" label to all eligible nodes in the cluster.
 The sandboxed operator uses this label to select the the candidate nodes for installation.
 //For more information, see the xref:../sandboxed_containers/deploying-sandboxed-container-workloads.adoc#deploying-sandboxed-containers-workloads_additional-resources[Additional resources for Deploying {sandboxed-containers-first} workloads].
+
+[id="support-AWS-bare-metal"]
+=== {sandboxed-containers-first} availability on AWS bare-metal (tech preview)
+
+You can now install {sandboxed-containers-first} on AWS bare-metal clusters. This feature is in tech preview and not fully supported. For more information, see xref:../sandboxed_containers/understanding-sandboxed-containers.adoc#understanding-sandboxed-containers[Understanding {sandboxed-containers-first}]. 
 
 [id="sandboxed-containers-1-2-bug-fixes"]
 == Bug fixes
