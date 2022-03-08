@@ -2,6 +2,7 @@
 [id="sandboxed-containers-4-10-release-notes"]
 = {sandboxed-containers-first} {sandboxed-containers-version} release notes
 include::_attributes/common-attributes.adoc[]
+include::_attributes/virt-document-attributes.adoc[]
 :context: sandboxed-containers-release-notes
 
 toc::[]
@@ -31,17 +32,20 @@ Administrators can now collect enhanced logs for {sandboxed-containers-first} ru
 [id="node-eligibility-rn"]
 === Check node eligibility to run {sandboxed-containers-first}
 
-This release introduces the functionality of determining the eligibility of cluster nodes to run Kata containers. For using this functionality, the 'checkNodeEligibility' config needs to be enabled when creating the KataConfig custom resource.
-When it's enabled the sandboxed containers operator will look for the node label "feature.node.kubernetes.io/runtime.kata" to select the candidate nodes for installing Kata containers runtime.
-This feature relies on Node Feature Discovery (NFD) operator for detecting the node capabilities and subsequently adding the "feature.node.kubernetes.io/runtime.kata" label for eligible nodes.
-The cluster administrator needs to deploy Node Feature Discovery (NFD) Operator and create a specific "NodeFeatureDiscovery" custom resource to detect the required node capabilities for running Kata containers. NFD operator will add the "feature.node.kubernetes.io/runtime.kata" label to all eligible nodes in the cluster.
-The sandboxed operator uses this label to select the the candidate nodes for installation.
+Administrators can now check the eligibility of cluster nodes to run {sandboxed-containers-first}. This feature uses the Node Feature Discovery (NFD) operator to detect  node capabilities. Eligible nodes are labeled with `feature.node.kubernetes.io/runtime.kata, and the {sandboxed-containers-operator} uses this label to select candidate nodes for installation.
+
+The administrator must deploy the NFD operator to use this feature, create a specific *NodeFeatureDiscovery* custom resource, and enable `checkNodeEligibility' when creating the *KataConfig* custom resource.
 //For more information, see the xref:../sandboxed_containers/deploying-sandboxed-container-workloads.adoc#deploying-sandboxed-containers-workloads_additional-resources[Additional resources for Deploying {sandboxed-containers-first} workloads].
+
+[id="OSC-compatibility-with-CNV"]
+=== {sandboxed-containers-first} compatibility with {VirtProductName}
+
+Users can now run {sandboxed-containers-first} on clusters with {VirtProductName} when VMs are configured correctly. For more information, see 
 
 [id="support-AWS-bare-metal"]
 === {sandboxed-containers-first} availability on AWS bare-metal (tech preview)
 
-You can now install {sandboxed-containers-first} on AWS bare-metal clusters. This feature is in tech preview and not fully supported. For more information, see xref:../sandboxed_containers/understanding-sandboxed-containers.adoc#understanding-sandboxed-containers[Understanding {sandboxed-containers-first}]. 
+Users can now install {sandboxed-containers-first} on AWS bare-metal clusters. This feature is in tech preview and not fully supported. For more information, see xref:../sandboxed_containers/understanding-sandboxed-containers.adoc#understanding-sandboxed-containers[Understanding {sandboxed-containers-first}].
 
 [id="sandboxed-containers-1-2-bug-fixes"]
 == Bug fixes
