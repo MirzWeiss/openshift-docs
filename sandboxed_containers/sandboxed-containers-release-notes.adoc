@@ -72,32 +72,30 @@ If the mounted files or directories do not have specific SELinux requirements on
 +
 Automatic relabeling is not an option when mounted files or directories are expected to have specific SELinux labels on the host. Instead, you can set custom SELinux rules on the host in order to allow virtiofsd to access these specific labels. (link:https://bugzilla.redhat.com/show_bug.cgi?id=1904609[*BZ#1904609*])
 
-* You might encounter an issue where `machine-config-operator` (MCO) pod changes to `CrashLoopBackOff` state, and the "openshift.io/scc" annotation of the POD shows "sandboxed-containers-operator-scc" instead of the default "hostmount-anyuid".
+* You might encounter an issue where `machine-config-operator` (MCO) pod changes to `CrashLoopBackOff` state and the `openshift.io/scc` annotation of the POD shows "sandboxed-containers-operator-scc" instead of the default `hostmount-anyuid`.
 +
-If you encounter this issue, perform the following steps:
+If this happens, temporarily change the `seLinuxOptions` strategy in the `sandboxed-containers-operator-scc` SCC to the less restrictive `RunAsAny`, so that the admission process does not prefer it over the `hostmount-anyuid` SCC. You can do this by running the following command: 
 +
-. Change the `selinuxOptions` strategy by running the following command:
+. Change the `seLinuxOptions` strategy by running the following command:
 +
 [source,terminal]
 ----
 oc patch scc sandboxed-containers-operator-scc --type=merge --patch '{"seLinuxContext":{"type": "RunAsAny"}}'
 ----
 
-. Scale a deployment by running the following command:
+. Restart the MCO POD by running the following commands:
 +
 [source,terminal]
 ----
 oc scale deployments/machine-config-operator -n openshift-machine-config-operator --replicas=0
 ----
-
-. Scale a deployment again by running the following command:
 +
 [source,terminal]
 ----
 oc scale deployments/machine-config-operator -n openshift-machine-config-operator --replicas=1
 ----
 
-. Change the `selinuxOptions` strategy by running the following command:
+. Revert the 'seLinuxOptions' strategy of the `sandboxed-containers-operator-scc` to its original value of 'MustRunAs' by running the following command:
 +
 [source,terminal]
 ----
