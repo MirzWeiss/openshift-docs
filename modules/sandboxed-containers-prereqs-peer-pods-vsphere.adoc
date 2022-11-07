@@ -1,0 +1,12 @@
+//Module included in the following assemblies:
+//
+// * deploying-sandboxed-container-workloads-peer-pods.adoc
+
+:_content-type: CONCEPT
+[id="sandboxed-containers-prerequisites-peer-pods-vsphere_{context}"]
+= Prerequisites for peer-pods using vSphere
+
+If you are using vSphere to create peer-pods, you must ensure the following requirements:
+
+* Your {product-title} cluster must be installed on vSphere, with at least one worker node.
+* You must open ports 15150 and 9000.
