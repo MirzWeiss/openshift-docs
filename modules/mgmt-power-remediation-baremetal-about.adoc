@@ -2,6 +2,7 @@
 
 // * machine_management/mgmt-power-remediation-baremetal
 
+:_content-type: PROCEDURE
 [id="mgmt-power-remediation-baremetal-about_{context}"]
 = About power-based remediation of bare metal
 In a bare metal cluster, remediation of nodes is critical to ensuring the overall health of the cluster. Physically remediating a cluster can be challenging and any delay in putting the machine into a safe or an operational state increases the time the cluster remains in a degraded state, and the risk that subsequent failures might bring the cluster offline. Power-based remediation helps counter such challenges.
@@ -43,7 +44,7 @@ The remediation process operates as follows:
 
 [NOTE]
 ====
-If the power operations did not complete, the bare metal machine controller triggers the reprovisioning of the unhealthy node unless this is a control plane node (also known as the master node) or a node that was provisioned externally.
+If the power operations did not complete, the bare metal machine controller triggers the reprovisioning of the unhealthy node unless this is a control plane node or a node that was provisioned externally.
 ====
 
 [id="mgmt-creating-mhc-baremetal_{context}"]
@@ -94,7 +95,7 @@ spec:
 <1> Specify the name of the machine health check to deploy.
 <2> For bare metal clusters, you must include the `machine.openshift.io/remediation-strategy: external-baremetal` annotation in the `annotations` section to enable power-cycle remediation. With this remediation strategy, unhealthy hosts are rebooted instead of removed from the cluster.
 <3> Specify a label for the machine pool that you want to check.
-<4> Specify the machine set to track in `<cluster_name>-<label>-<zone>` format. For example, `prod-node-us-east-1a`.
+<4> Specify the compute machine set to track in `<cluster_name>-<label>-<zone>` format. For example, `prod-node-us-east-1a`.
 <5> Specify the timeout duration for the node condition. If the condition is met for the duration of the timeout, the machine will be remediated. Long timeouts can result in long periods of downtime for a workload on an unhealthy machine.
 <6> Specify the amount of machines allowed to be concurrently remediated in the targeted pool. This can be set as a percentage or an integer. If the number of unhealthy machines exceeds the limit set by `maxUnhealthy`, remediation is not performed.
 <7> Specify the timeout duration that a machine health check must wait for a node to join the cluster before a machine is determined to be unhealthy.

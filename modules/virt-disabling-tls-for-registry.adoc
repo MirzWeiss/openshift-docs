@@ -2,6 +2,7 @@
 //
 // * virt/virtual_machines/virtual_disks/virt-using-container-disks-with-vms.adoc
 
+:_content-type: PROCEDURE
 [id="virt-disabling-tls-for-registry_{context}"]
 = Disabling TLS for a container registry to use as insecure registry
 
@@ -28,4 +29,4 @@ spec:
       - "private-registry-example-1:5000"
       - "private-registry-example-2:5000"
 ----
-<1> Replace the examples in this list with valid registry host names.
+<1> Replace the examples in this list with valid registry hostnames.

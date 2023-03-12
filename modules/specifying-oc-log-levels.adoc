@@ -2,6 +2,7 @@
 //
 // * support/troubleshooting/diagnosing-oc-issues.adoc
 
+:_content-type: PROCEDURE
 [id="specifying-oc-log-levels_{context}"]
 = Specifying OpenShift CLI (`oc`) log levels
 
@@ -9,7 +10,7 @@ You can investigate OpenShift CLI (`oc`) issues by increasing the command's log 
 
 .Prerequisites
 
-* You have installed the OpenShift CLI (`oc`).
+* Install the OpenShift CLI (`oc`).
 
 .Procedure
 

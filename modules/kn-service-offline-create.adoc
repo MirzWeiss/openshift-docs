@@ -1,14 +1,21 @@
 // Module included in the following assemblies:
 //
-// serverless/cli_reference/kn-offline-services.adoc
+// * serverless/reference/kn-serving-ref.adoc
+// * serverless/develop/serverless-applications.adoc
 
+:_content-type: PROCEDURE
 [id="creating-an-offline-service_{context}"]
 = Creating a service using offline mode
+
+You can execute `kn service` commands in offline mode, so that no changes happen on the cluster, and instead the service descriptor file is created on your local machine. After the descriptor file is created, you can modify the file before propagating changes to the cluster.
+
+:FeatureName: The offline mode of the Knative CLI
+include::snippets/technology-preview.adoc[leveloffset=+1]
 
 .Prerequisites
 
 * {ServerlessOperatorName} and Knative Serving are installed on your cluster.
-* You have installed the `kn` CLI.
+* You have installed the Knative (`kn`) CLI.
 
 .Procedure
 
@@ -36,7 +43,7 @@ The filename can have the `.yaml`, `.yml`, or `.json` extension. Choosing `.json
 +
 * The `--namespace test` option places the new service in the `test` namespace.
 +
-If you do not use `--namespace`, and you are logged in to an OpenShift cluster, the descriptor file is created in the current namespace. Otherwise, the descriptor file is created in the `default` namespace.
+If you do not use `--namespace`, and you are logged in to an {product-title} cluster, the descriptor file is created in the current namespace. Otherwise, the descriptor file is created in the `default` namespace.
 
 . Examine the created directory structure:
 +
@@ -117,7 +124,7 @@ Alternatively, you can directly specify a YAML or JSON filename with the `--targ
 +
 * The `--namespace` option specifies the namespace, which communicates to `kn` the subdirectory that contains the necessary service descriptor file.
 +
-If you do not use `--namespace`, and you are logged in to an OpenShift cluster, `kn` searches for the service in the subdirectory that is named after the current namespace. Otherwise, `kn` searches in the `default/` subdirectory.
+If you do not use `--namespace`, and you are logged in to an {product-title} cluster, `kn` searches for the service in the subdirectory that is named after the current namespace. Otherwise, `kn` searches in the `default/` subdirectory.
 
 . Use the service descriptor file to create the service on the cluster:
 +

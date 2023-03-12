@@ -2,6 +2,7 @@
 //
 // * ingress/getting-traffic-cluster.adoc
 
+:_content-type: PROCEDURE
 [id="nw-create-load-balancer-service_{context}"]
 = Creating a load balancer service
 
@@ -24,7 +25,7 @@ To create a load balancer service:
 $ oc project project1
 ----
 
-. Open a text file on the control plane node (also known as the master node) and paste the following text, editing the
+. Open a text file on the control plane node and paste the following text, editing the
 file as needed:
 +
 .Sample load balancer configuration file
@@ -38,15 +39,23 @@ spec:
   - name: db
     port: 3306 <2>
   loadBalancerIP:
-  type: LoadBalancer <3>
+  loadBalancerSourceRanges: <3>
+  - 10.0.0.0/8
+  - 192.168.0.0/16
+  type: LoadBalancer <4>
   selector:
-    name: mysql <4>
+    name: mysql <5>
 ----
 <1> Enter a descriptive name for the load balancer service.
 <2> Enter the same port that the service you want to expose is listening on.
-<3> Enter `loadbalancer` as the type.
-<4> Enter the name of the service.
-
+<3> Enter a list of specific IP addresses to restrict traffic through the load balancer. This field is ignored if the cloud-provider does not support the feature.
+<4> Enter `Loadbalancer` as the type.
+<5> Enter the name of the service.
++
+[NOTE]
+====
+To restrict the traffic through the load balancer to specific IP addresses, it is recommended to use the Ingress Controller field `spec.endpointPublishingStrategy.loadBalancer.allowedSourceRanges`. Do not set the `loadBalancerSourceRanges` field.
+====
 . Save and exit the file.
 
 . Run the following command to create the service:

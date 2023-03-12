@@ -3,6 +3,7 @@
 // * scaling_and_performance/using-topology-manager.adoc
 // * post_installation_configuration/node-tasks.adoc
 
+:_content-type: PROCEDURE
 [id="seting_up_topology_manager_{context}"]
 = Setting up Topology Manager
 
@@ -10,7 +11,7 @@ To use Topology Manager, you must configure an allocation policy in the `cpumana
 
 .Prequisites
 
-* Configure the CPU Manager policy to be `static`. Refer to Using CPU Manager in the Scalability and Performance section.
+* Configure the CPU Manager policy to be `static`.
 
 .Procedure
 
@@ -38,6 +39,6 @@ spec:
      cpuManagerReconcilePeriod: 5s
      topologyManagerPolicy: single-numa-node <2>
 ----
-<1> This parameter must be `static`.
+<1> This parameter must be `static` with a lowercase `s`.
 <2> Specify your selected Topology Manager allocation policy. Here, the policy is `single-numa-node`.
 Acceptable values are: `default`, `best-effort`, `restricted`, `single-numa-node`.

@@ -1,12 +1,13 @@
 // Module included in the following assemblies:
 //
 // * virt/logging_events_monitoring/virt-openshift-cluster-monitoring.adoc
-// * monitoring/understanding-the-monitoring-stack.adoc
+// * monitoring/monitoring-overview.adoc
 
 // This module uses a conditionalized title so that the module
 // can be re-used in associated products but the title is not
 // included in the existing OpenShift assembly.
 
+:_content-type: CONCEPT
 [id="understanding-the-monitoring-stack_{context}"]
 = Understanding the monitoring stack
 
@@ -16,4 +17,4 @@ The {product-title} monitoring stack is based on the link:https://prometheus.io/
 
 * *Components for monitoring user-defined projects*. After optionally enabling monitoring for user-defined projects, additional monitoring components are installed in the `openshift-user-workload-monitoring` project. This provides monitoring for user-defined projects. These components are illustrated in the *User* section in the following diagram.
 
-image:monitoring-architecture.svg[{product-title} monitoring architecture]
+image:monitoring-architecture.png[{product-title} monitoring architecture]

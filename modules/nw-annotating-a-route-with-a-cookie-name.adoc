@@ -6,6 +6,7 @@
 //
 // * networking/configuring-routing.adoc
 
+:_content-type: PROCEDURE
 [id="nw-annotating-a-route-with-a-cookie-name_{context}"]
 = Annotating a route with a cookie
 
@@ -34,7 +35,7 @@ For example, to annotate the route `my_route` with the cookie name `my_cookie`:
 $ oc annotate route my_route router.openshift.io/cookie_name="my_cookie"
 ----
 
-. Capture the route host name in a variable:
+. Capture the route hostname in a variable:
 +
 [source,terminal]
 ----

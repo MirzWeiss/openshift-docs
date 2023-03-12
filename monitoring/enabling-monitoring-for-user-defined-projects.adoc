@@ -1,20 +1,19 @@
+:_content-type: ASSEMBLY
 [id="enabling-monitoring-for-user-defined-projects"]
 = Enabling monitoring for user-defined projects
-include::modules/common-attributes.adoc[]
+include::_attributes/common-attributes.adoc[]
 :context: enabling-monitoring-for-user-defined-projects
 
 toc::[]
 
-In {product-title} {product-version}, you can enable monitoring for user-defined projects in addition to the default platform monitoring. You can now monitor your own projects in {product-title} without the need for an additional monitoring solution. Using this new feature centralizes monitoring for core platform components and user-defined projects.
+In {product-title} {product-version}, you can enable monitoring for user-defined projects in addition to the default platform monitoring. You can monitor your own projects in {product-title} without the need for an additional monitoring solution. Using this feature centralizes monitoring for core platform components and user-defined projects.
 
-[NOTE]
-====
-Custom Prometheus instances and the Prometheus Operator installed through Operator Lifecycle Manager (OLM) can cause issues with user-defined workload monitoring if it is enabled. Custom Prometheus instances are not supported in {product-title}.
-====
+include::snippets/monitoring-custom-prometheus-note.adoc[]
 
 // Enabling monitoring for user-defined projects
 include::modules/monitoring-enabling-monitoring-for-user-defined-projects.adoc[leveloffset=+1]
 
+[role="_additional-resources"]
 .Additional resources
 
 * xref:../monitoring/configuring-the-monitoring-stack.adoc#creating-cluster-monitoring-configmap_configuring-the-monitoring-stack[Creating a cluster monitoring config map]
@@ -31,6 +30,9 @@ include::modules/monitoring-granting-users-permission-to-configure-monitoring-fo
 
 // Accessing metrics from outside the cluster for custom applications
 include::modules/accessing-metrics-outside-cluster.adoc[leveloffset=+1]
+
+// Excluding a user-defined project from monitoring
+include::modules/monitoring-excluding-a-user-defined-project-from-monitoring.adoc[leveloffset=+1]
 
 // Disabling monitoring for user-defined projects
 include::modules/monitoring-disabling-monitoring-for-user-defined-projects.adoc[leveloffset=+1]

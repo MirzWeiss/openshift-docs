@@ -2,6 +2,7 @@
 //
 // * getting_started/cloud_infrastructure_access/dedicated-aws-vpn.adoc
 
+:_content-type: PROCEDURE
 [id="dedicated-aws-vpn-creating"]
 = Creating a VPN connection
 
@@ -24,7 +25,7 @@ configure at least one static route.
 
 .Procedure
 
-. Log in to the OSD AWS Account Dashboard, and navigate to the VPC Dashboard.
+. Log in to the {product-title} AWS Account Dashboard, and navigate to the VPC Dashboard.
 . Click on *Your VPCs* and identify the name and VPC ID for the VPC containing the {product-title} cluster.
 . From the VPC Dashboard, click *Customer Gateway*.
 . Click *Create Customer Gateway* and give it a meaningful name.

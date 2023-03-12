@@ -1,7 +1,4 @@
-// Module included in the following assemblies:
-//
-// * cli_reference/helm/configuring-custom-helm-chart-repositories.adoc
-
+:_content-type: PROCEDURE
 [id="filtering-helm-charts-by-certification-level_{context}"]
 = Filtering Helm Charts by their certification level
 

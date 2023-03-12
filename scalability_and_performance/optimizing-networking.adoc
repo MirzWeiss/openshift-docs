@@ -1,11 +1,12 @@
+:_content-type: ASSEMBLY
 [id="optimizing-networking"]
 = Optimizing networking
-include::modules/common-attributes.adoc[]
+include::_attributes/common-attributes.adoc[]
 :context: optimizing-networking
 
 toc::[]
 
-The xref:../networking/openshift_sdn/about-openshift-sdn.adoc#about-openshift-sdn[OpenShift SDN] uses OpenvSwitch, virtual extensible LAN (VXLAN) tunnels, OpenFlow rules, and iptables. This network can be tuned by using jumbo frames, network interface cards (NIC) offloads, multi-queue, and ethtool settings.
+The xref:../networking/openshift_sdn/about-openshift-sdn.adoc#about-openshift-sdn[OpenShift SDN] uses OpenvSwitch, virtual extensible LAN (VXLAN) tunnels, OpenFlow rules, and iptables. This network can be tuned by using jumbo frames, network interface controllers (NIC) offloads, multi-queue, and ethtool settings.
 
 xref:../networking/ovn_kubernetes_network_provider/about-ovn-kubernetes.adoc#about-ovn-kubernetes[OVN-Kubernetes] uses Geneve (Generic Network Virtualization Encapsulation) instead of VXLAN as the tunnel protocol.
 
@@ -19,7 +20,7 @@ Cloud, VM, and bare metal CPU performance can be capable of handling much more t
 
 If you are looking to push beyond one Gbps, you can:
 
-* Evaluate network plug-ins that implement different routing techniques, such as border gateway protocol (BGP).
+* Evaluate network plugins that implement different routing techniques, such as border gateway protocol (BGP).
 * Use VXLAN-offload capable network adapters. VXLAN-offload moves the packet checksum calculation and associated CPU overhead off of the system CPU and onto dedicated hardware on the network adapter. This frees up CPU cycles for use by pods and applications, and allows users to utilize the full bandwidth of their network infrastructure.
 
 VXLAN-offload does not reduce latency. However, CPU utilization is reduced even in latency tests.
@@ -30,8 +31,11 @@ include::modules/recommended-install-practices.adoc[leveloffset=+1]
 
 include::modules/ipsec-impact-networking.adoc[leveloffset=+1]
 
-.Additional resources
+[role="_additional-resources"]
+[id="optimizing-networking-additional-resources"]
+== Additional resources
 
 * xref:../installing/installing_aws/installing-aws-network-customizations.adoc#modifying-nwoperator-config-startup_installing-aws-network-customizations[Modifying advanced network configuration parameters]
-* xref:../networking/cluster-network-operator.adoc#nw-operator-configuration-parameters-for-ovn-sdn_cluster-network-operator[Configuration parameters for the OVN-Kubernetes default CNI network provider]
-* xref:../networking/cluster-network-operator.adoc#nw-operator-configuration-parameters-for-openshift-sdn_cluster-network-operator[Configuration parameters for the OpenShift SDN default CNI network provider]
+* xref:../networking/cluster-network-operator.adoc#nw-operator-configuration-parameters-for-ovn-sdn_cluster-network-operator[Configuration parameters for the OVN-Kubernetes network plugin]
+* xref:../networking/cluster-network-operator.adoc#nw-operator-configuration-parameters-for-openshift-sdn_cluster-network-operator[Configuration parameters for the OpenShift SDN network plugin]
+* xref:../scalability_and_performance/scaling-worker-latency-profiles.adoc#scaling-worker-latency-profiles[Improving cluster stability in high latency environments using worker latency profiles]

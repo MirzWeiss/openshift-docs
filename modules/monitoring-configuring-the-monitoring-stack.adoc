@@ -2,6 +2,7 @@
 //
 // * monitoring/configuring-the-monitoring-stack.adoc
 
+:_content-type: PROCEDURE
 [id="configuring-the-monitoring-stack_{context}"]
 = Configuring the monitoring stack
 
@@ -58,12 +59,12 @@ data:
   config.yaml: |
     prometheusK8s: <1>
       volumeClaimTemplate:
-       spec:
-         storageClassName: fast
-         volumeMode: Filesystem
-         resources:
-           requests:
-             storage: 40Gi
+        spec:
+          storageClassName: fast
+          volumeMode: Filesystem
+          resources:
+            requests:
+              storage: 40Gi
 ----
 <1> Defines the Prometheus component and the subsequent lines define its configuration.
 

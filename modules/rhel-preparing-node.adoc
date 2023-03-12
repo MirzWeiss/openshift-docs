@@ -73,11 +73,10 @@ Note that this might take a few minutes if you have a large number of available 
 [source,terminal]
 ----
 # subscription-manager repos \
-    --enable="rhel-7-server-rpms" \
-    --enable="rhel-7-fast-datapath-rpms" \
-    --enable="rhel-7-server-extras-rpms" \
-    --enable="rhel-7-server-optional-rpms" \
-    --enable="rhel-7-server-ose-4.8-rpms"
+    --enable="rhel-8-for-x86_64-baseos-rpms" \
+    --enable="rhel-8-for-x86_64-appstream-rpms" \
+    --enable="rhocp-4.12-for-rhel-8-x86_64-rpms" \
+    --enable="fast-datapath-for-rhel-8-x86_64-rpms"
 ----
 
 . Stop and disable firewalld on the host:

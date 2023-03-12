@@ -1,7 +1,8 @@
+:_content-type: ASSEMBLY
 // Epic CNF-40
 [id="cnf-building-and-deploying-a-dpdk-application"]
 = Building and deploying a DPDK application using the S2I image
-include::modules/common-attributes.adoc[]
+include::_attributes/common-attributes.adoc[]
 :context: building-deploying-DPDK-using-s2i-image
 
 toc::[]
@@ -25,14 +26,14 @@ create a target image containing the DPDK libraries and the application provided
 
 Before using the S2I tool, ensure that you have the following components installed and configured:
 
-* OCP Image Registry Operator:
+* Image Registry Operator:
 See xref:../registry/configuring-registry-operator.adoc#configuring-registry-operator[Image Registry Operator in OpenShift Container Platform].
 
 * SR-IOV Operator:
 See xref:../networking/hardware_networks/about-sriov.adoc#about-sriov[About SR-IOV hardware on {product-title}].
 
 * Performance AddOn Operator:
-See xref:../scalability_and_performance/cnf-performance-addon-operator-for-low-latency-nodes.adoc#performance-addon-operator-for-low-latency-nodes[About CNF Performance Addon Operator].
+See xref:../scalability_and_performance/cnf-low-latency-tuning.adoc#cnf-low-latency-tuning[About CNF Performance Addon Operator].
 
 This example application is the `test-pmd` application provided by dpdk.org.
 For more information, see link:https://doc.dpdk.org/guides/testpmd_app_ug/[Testpmd Application User Guide].
@@ -171,8 +172,7 @@ After the base DPDK image build is ready, you should configure the environment t
 
 . Create a performance profile to allocate Hugepages and isolated CPUs. For more
 information, see
-xref:../scalability_and_performance/cnf-performance-addon-operator-for-low-latency-nodes.adoc#cnf-understanding-low-latency_{context}[Tuning
-nodes for low latency via PerformanceProfile].
+xref:../scalability_and_performance/cnf-low-latency-tuning.adoc#cnf-understanding-low-latency_{context}[Tuning nodes for low latency via PerformanceProfile].
 
 . Create the SR-IOV network policy and the SR-IOV network attachment based on your network card type. For more information,
 see xref:../networking/hardware_networks/using-dpdk-and-rdma.adoc#using-dpdk-and-rdma[Using Virtual Functions (VFs) with DPDK and RDMA modes].

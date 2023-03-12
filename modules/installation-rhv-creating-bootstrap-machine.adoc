@@ -3,6 +3,7 @@
 // * installing/installing_rhv/installing-rhv-user-infra.adoc
 // * installing/installing-rhv-restricted-network.adoc
 
+:_content-type: PROCEDURE
 [id="installation-rhv-creating-bootstrap-machine_{context}"]
 = Creating the bootstrap machine
 
@@ -35,5 +36,5 @@ $ ssh core@<boostrap.ip>
 +
 [NOTE]
 ====
-The `bootkube.service` log on the bootstrap node outputs etcd `connection refused` errors, indicating that the bootstrap server is unable to connect to etcd on control plane nodes (also known as the master nodes). After etcd has started on each control plane node and the nodes have joined the cluster, the errors should stop.
+The `bootkube.service` log on the bootstrap node outputs etcd `connection refused` errors, indicating that the bootstrap server is unable to connect to etcd on control plane nodes. After etcd has started on each control plane node and the nodes have joined the cluster, the errors should stop.
 ====

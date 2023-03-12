@@ -3,6 +3,7 @@
 // * installing/installing-gcp-vpc.adoc
 // * installing/installing-restricted-networks-gcp
 
+:_content-type: PROCEDURE
 [id="nw-gcp-global-access-configuration_{context}"]
 = Create an Ingress Controller with global access on GCP
 You can create an Ingress Controller that has global access to a Google Cloud Platform (GCP) cluster. Global access is only available to Ingress Controllers using internal load balancers.
@@ -19,7 +20,7 @@ Create an Ingress Controller with global access on a new GCP cluster.
 +
 [source,terminal]
 ----
-$ ./openshift-install create manifests --dir=<installation_directory> <1>
+$ ./openshift-install create manifests --dir <installation_directory> <1>
 ----
 <1> For `<installation_directory>`, specify the name of the directory that
 contains the `install-config.yaml` file for your cluster.

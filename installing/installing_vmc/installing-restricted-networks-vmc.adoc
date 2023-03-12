@@ -1,6 +1,7 @@
+:_content-type: ASSEMBLY
 [id="installing-restricted-networks-vmc"]
 = Installing a cluster on VMC in a restricted network
-include::modules/common-attributes.adoc[]
+include::_attributes/common-attributes.adoc[]
 :context: installing-restricted-networks-vmc
 
 toc::[]
@@ -8,6 +9,8 @@ toc::[]
 In {product-title} version {product-version}, you can install a cluster on VMware vSphere infrastructure in a restricted network by deploying it to link:https://cloud.vmware.com/vmc-aws[VMware Cloud (VMC) on AWS].
 
 Once you configure your VMC environment for {product-title} deployment, you use the {product-title} installation program from the bastion management host, co-located in the VMC environment. The installation program and control plane automates the process of deploying and managing the resources needed for the {product-title} cluster.
+
+include::snippets/vcenter-support.adoc[]
 
 include::modules/setting-up-vmc-for-vsphere.adoc[leveloffset=+1]
 include::modules/vmc-sizer-tool.adoc[leveloffset=+2]
@@ -17,7 +20,7 @@ include::modules/vmc-sizer-tool.adoc[leveloffset=+2]
 
 * You reviewed details about the xref:../../architecture/architecture-installation.adoc#architecture-installation[{product-title} installation and update] processes.
 * You read the documentation on xref:../../installing/installing-preparing.adoc#installing-preparing[selecting a cluster installation method and preparing it for users].
-* You xref:../../installing/installing-mirroring-installation-images.adoc#installing-mirroring-installation-images[created a registry on your mirror host] and obtained the `imageContentSources` data for your version of {product-title}.
+* You xref:../../installing/disconnected_install/installing-mirroring-installation-images.adoc#installing-mirroring-installation-images[created a registry on your mirror host] and obtained the `imageContentSources` data for your version of {product-title}.
 +
 [IMPORTANT]
 ====
@@ -36,6 +39,16 @@ include::modules/installation-about-restricted-network.adoc[leveloffset=+1]
 include::modules/cluster-entitlements.adoc[leveloffset=+1]
 
 include::modules/installation-vsphere-infrastructure.adoc[leveloffset=+1]
+
+include::modules/installation-vsphere-installer-network-requirements.adoc[leveloffset=+1]
+
+include::modules/vmware-csi-driver-reqs.adoc[leveloffset=+1]
+
+[role="_additional-resources"]
+.Additional resources
+
+* To remove a third-party CSI driver, see xref:../../storage/container_storage_interface/persistent-storage-csi-vsphere.adoc#persistent-storage-csi-vsphere-install-issues_persistent-storage-csi-vsphere[Removing a third-party vSphere CSI Driver].
+* To update the hardware version for your vSphere nodes, see xref:../../updating/updating-hardware-on-nodes-running-on-vsphere.adoc#updating-hardware-on-nodes-running-on-vsphere[Updating hardware on nodes running in vSphere].
 
 include::modules/installation-vsphere-installer-infra-requirements.adoc[leveloffset=+1]
 
@@ -71,6 +84,15 @@ include::modules/registry-removed.adoc[leveloffset=+2]
 include::modules/installation-registry-storage-config.adoc[leveloffset=+2]
 
 include::modules/registry-configuring-storage-vsphere.adoc[leveloffset=+3]
+
+include::modules/cluster-telemetry.adoc[leveloffset=+1]
+
+[role="_additional-resources"]
+.Additional resources
+
+* See xref:../../support/remote_health_monitoring/about-remote-health-monitoring.adoc#about-remote-health-monitoring[About remote health monitoring] for more information about the Telemetry service
+
+include::modules/nw-osp-configuring-external-load-balancer.adoc[leveloffset=+1]
 
 [id="next-steps_installing-restricted-networks-vmc"]
 == Next steps

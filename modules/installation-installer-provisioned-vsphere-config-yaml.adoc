@@ -23,7 +23,7 @@ endif::[]
 [id="installation-installer-provisioned-vsphere-config-yaml_{context}"]
 = Sample install-config.yaml file for an installer-provisioned VMware vSphere cluster
 
-You can customize the `install-config.yaml` file to specify more details about
+You can customize the install-config.yaml file to specify more details about
 your {product-title} cluster's platform or modify the values of the required
 parameters.
 
@@ -39,7 +39,7 @@ compute: <2>
     vsphere: <4>
       cpus: 2
       coresPerSocket: 2
-      memoryMB: 8196
+      memoryMB: 8192
       osDisk:
         diskSizeGB: 120
 controlPlane: <2>
@@ -62,12 +62,7 @@ networking:
     hostPrefix: 23
   machineNetwork:
   - cidr: 10.0.0.0/16
-ifndef::openshift-origin[]
-  networkType: OpenShiftSDN
-endif::openshift-origin[]
-ifdef::openshift-origin[]
-  networkType: OVNKubernetes
-endif::openshift-origin[]
+  networkType: OVNKubernetes <9>
   serviceNetwork:
   - 172.30.0.0/16
 endif::network[]
@@ -79,12 +74,16 @@ platform:
     datacenter: datacenter
     defaultDatastore: datastore
     folder: folder
+    resourcePool: resource_pool <6>
+    diskType: thin <7>
     network: VM_Network
-    cluster: vsphere_cluster_name
-    apiVIP: api_vip
-    ingressVIP: ingress_vip
+    cluster: vsphere_cluster_name <8>
+    apiVIPs: 
+      - api_vip
+    ingressVIPs: 
+      - ingress_vip
 ifdef::restricted[]
-    clusterOSImage: http://mirror.example.com/images/rhcos-48.83.202103221318-0-vmware.x86_64.ova <6>
+    clusterOSImage: http://mirror.example.com/images/rhcos-47.83.202103221318-0-vmware.x86_64.ova <9>
 endif::restricted[]
 ifndef::openshift-origin[]
 fips: false
@@ -93,32 +92,26 @@ ifndef::restricted[]
 pullSecret: '{"auths": ...}'
 endif::restricted[]
 ifdef::restricted[]
-pullSecret: '{"auths":{"<local_registry>": {"auth": "<credentials>","email": "you@example.com"}}}' <7>
+pullSecret: '{"auths":{"<local_registry>": {"auth": "<credentials>","email": "you@example.com"}}}' <10>
 endif::restricted[]
 sshKey: 'ssh-ed25519 AAAA...'
 ifdef::restricted[]
-additionalTrustBundle: | <8>
+additionalTrustBundle: | <11>
   -----BEGIN CERTIFICATE-----
   ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
   -----END CERTIFICATE-----
-imageContentSources: <9>
+imageContentSources: <12>
 - mirrors:
   - <local_registry>/<local_repository_name>/release
   source: quay.io/openshift-release-dev/ocp-release
 - mirrors:
   - <local_registry>/<local_repository_name>/release
-  source: registry.svc.ci.openshift.org/ocp/release
+  source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
 endif::restricted[]
 ----
 <1> The base domain of the cluster. All DNS records must be sub-domains of this
 base and include the cluster name.
-<2> The `controlPlane` section is a single mapping, but the compute section is a
-sequence of mappings. To meet the requirements of the different data structures,
-the first line of the `compute` section must begin with a hyphen, `-`, and the
-first line of the `controlPlane` section must not. Although both sections
-currently define a single machine pool, it is possible that future versions
-of {product-title} will support defining multiple compute pools during
-installation. Only one control plane pool is used.
+<2> The `controlPlane` section is a single mapping, but the `compute` section is a sequence of mappings. To meet the requirements of the different data structures, the first line of the `compute` section must begin with a hyphen, `-`, and the first line of the `controlPlane` section must not. Only one control plane pool is used.
 <3> Whether to enable or disable simultaneous multithreading, or
 `hyperthreading`. By default, simultaneous multithreading is enabled
 to increase the performance of your machines' cores. You can disable it by
@@ -135,15 +128,26 @@ simultaneous multithreading.
 ====
 <4> Optional: Provide additional configuration for the machine pool parameters for the compute and control plane machines.
 <5> The cluster name that you specified in your DNS records.
+<6> Optional: Provide an existing resource pool for machine creation. If you do not specify a value, the installation program uses the root resource pool of the vSphere cluster.
+<7> The vSphere disk provisioning method.
+<8> The vSphere cluster to install the {product-title} cluster in.
+ifdef::network[]
+<9> The cluster network plugin to install. The supported values are `OVNKubernetes` and `OpenShiftSDN`. The default value is `OVNKubernetes`.
+endif::network[]
 ifdef::restricted[]
-<6> The location of the {op-system-first} image that is accessible from the bastion server.
-<7> For `<local_registry>`, specify the registry domain name, and optionally the
+<9> The location of the {op-system-first} image that is accessible from the bastion server.
+<10> For `<local_registry>`, specify the registry domain name, and optionally the
 port, that your mirror registry uses to serve content. For example
 `registry.example.com` or `registry.example.com:5000`. For `<credentials>`,
 specify the base64-encoded user name and password for your mirror registry.
-<8> Provide the contents of the certificate file that you used for your mirror registry.
-<9> Provide the `imageContentSources` section from the output of the command to mirror the repository.
+<11> Provide the contents of the certificate file that you used for your mirror registry.
+<12> Provide the `imageContentSources` section from the output of the command to mirror the repository.
 endif::restricted[]
+
+[NOTE]
+====
+In {product-title} 4.12 and later, the `apiVIP` and `ingressVIP` configuration settings are deprecated. Instead, use a list format to enter values in the `apiVIPs` and `ingressVIPs` configuration settings.
+====
 
 ifeval::["{context}" == "installing-vsphere-installer-provisioned-network-customizations"]
 :!network:

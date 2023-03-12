@@ -34,15 +34,11 @@ networking:
   clusterNetwork:
   - cidr: 10.128.0.0/14
     hostPrefix: 23
-  machineCIDR: 10.0.0.0/16
+  machineNetwork:
+  - cidr: 10.0.0.0/16
   serviceNetwork:
   - 172.30.0.0/16
-ifndef::openshift-origin[]
-  networkType: OpenShiftSDN
-endif::openshift-origin[]
-ifdef::openshift-origin[]
   networkType: OVNKubernetes
-endif::openshift-origin[]
 platform:
   openstack:
     region: region1
@@ -69,5 +65,5 @@ imageContentSources:
   source: quay.io/openshift-release-dev/ocp-release
 - mirrors:
   - <mirror_registry>/<repo_name>/release
-  source: registry.svc.ci.openshift.org/ocp/release
+  source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
 ----

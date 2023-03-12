@@ -52,14 +52,20 @@ instance will handle before queuing additional requests.
 
 |`defaultRoute`
 |Determines whether or not an external route is defined using the default
-hostname. If enabled, the route uses re-encrypt encryption. Defaults to false.
+hostname. If enabled, the route uses re-encrypt encryption. Defaults to `false`.
 
 |`routes`
 |Array of additional routes to create. You provide the hostname and certificate
 for the route.
 
+|`rolloutStrategy`
+|Defines rollout strategy for the image registry deployment. Defaults to `RollingUpdate`.
+
 |`replicas`
 |Replica count for the registry.
+
+|`disableRedirect`
+| Controls whether to route all data through the registry, rather than redirecting to the back end. Defaults to `false`.
 
 |`spec.storage.managementState`
 

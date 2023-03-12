@@ -1,6 +1,7 @@
 // Module included in the following assemblies:
 //
 // */openshift_pipelines/installing-pipelines.adoc
+:_content-type: PROCEDURE
 [id="op-installing-pipelines-operator-in-web-console_{context}"]
 = Installing the {pipelines-title} Operator in web console
 
@@ -19,9 +20,9 @@ If you manually changed your existing installation, such as, changing the target
 The {pipelines-title} Operator now provides the option to choose the components that you want to install by specifying profiles as part of the `TektonConfig` CR. The `TektonConfig` CR is automatically installed when the Operator is installed.
 The supported profiles are:
 
-* Basic: This installs only Tekton pipelines.
-* Default: This installs Tekton pipeline and Tekton triggers.
-* All: This is the default profile used when the `TektonConfig` CR is installed. This profile installs all of the Tekton components: Tekton Pipelines, Tekton Triggers, Tekton Addons(which include `ClusterTasks`, `ClusterTriggerBindings`, `ConsoleCLIDownload`, `ConsoleQuickStart` and `ConsoleYAMLSample` resources).
+* Lite: This installs only Tekton Pipelines.
+* Basic: This installs Tekton Pipelines and Tekton Triggers.
+* All: This is the default profile used when the `TektonConfig` CR is installed. This profile installs all of the Tekton components: Tekton Pipelines, Tekton Triggers, Tekton Addons (which include `ClusterTasks`, `ClusterTriggerBindings`, `ConsoleCLIDownload`, `ConsoleQuickStart` and `ConsoleYAMLSample` resources).
 
 [discrete]
 .Procedure
@@ -40,8 +41,13 @@ The supported profiles are:
 
 .. Select an *Update Channel*.
 
-*** The *Stable* channel enables installation of the latest stable and supported release of the {pipelines-title} Operator.
-*** The *preview* channel enables installation of the latest preview version of the {pipelines-title} Operator, which may contain features that are not yet available from the *Stable* channel and is not supported.
+*** The `latest` channel enables installation of the most recent stable version of the {pipelines-title} Operator. Currently, it is the default channel for installing the {pipelines-title} Operator.
+*** To install a specific version of the {pipelines-title} Operator, cluster administrators can use the corresponding `pipelines-<version>` channel. For example, to install the {pipelines-title} Operator version `1.8.x`, you can use the `pipelines-1.8` channel.
++
+[NOTE]
+====
+Starting with {product-title} 4.11, the `preview` and `stable` channels for installing and upgrading the {pipelines-title} Operator are not available. However, in {product-title} 4.10 and earlier versions, you can use the `preview` and `stable` channels for installing and upgrading the Operator.
+====  
 
 . Click *Install*. You will see the Operator listed on the *Installed Operators* page.
 +

@@ -1,6 +1,7 @@
+:_content-type: ASSEMBLY
 [id="installing-troubleshooting"]
 = Troubleshooting installation issues
-include::modules/common-attributes.adoc[]
+include::_attributes/common-attributes.adoc[]
 :context: installing-troubleshooting
 
 toc::[]
@@ -19,3 +20,9 @@ include::modules/manually-gathering-logs-with-ssh.adoc[leveloffset=+1]
 include::modules/manually-gathering-logs-without-ssh.adoc[leveloffset=+1]
 
 include::modules/installation-getting-debug-information.adoc[leveloffset=+1]
+
+include::modules/restarting-installation.adoc[leveloffset=+1]
+
+[role="_additional-resources"]
+.Additional resources
+* xref:../installing/index.adoc#ocp-installation-overview[Installing an {product-title} cluster]

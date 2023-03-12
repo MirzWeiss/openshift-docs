@@ -1,136 +1,132 @@
 // Module included in the following assemblies:
 //
-// * updating/updating-cluster.adoc
-// * updating/updating-cluster-between-minor.adoc
+// * updating/updating-cluster-within-minor.adoc
 // * updating/updating-cluster-cli.adoc
 // * updating/updating-cluster-rhel-compute.adoc
 // * updating/updating-disconnected-cluster.adoc
 
 [id="understanding-upgrade-channels_{context}"]
-= {product-title} upgrade channels and releases
 
-In {product-title} 4.1, Red Hat introduced the concept of channels for recommending the appropriate release versions for cluster upgrades. By controlling the pace of upgrades, these upgrade channels allow you to choose an upgrade strategy. Upgrade channels are tied to a minor version of {product-title}. For instance, {product-title} 4.8 upgrade channels recommend upgrades to 4.8 and upgrades within 4.8. They also recommend upgrades within 4.7 and from 4.7 to 4.8, to allow clusters on 4.7 to eventually upgrade to 4.8. They do not recommend upgrades to 4.9 or later releases. This strategy ensures that administrators explicitly decide to upgrade to the next minor version of {product-title}.
-
-Upgrade channels control only release selection and do not impact the version of the cluster that you install; the `openshift-install` binary file for a specific version of {product-title} always installs that version.
+= Update channels
 
 ifndef::openshift-origin[]
-{product-title} {product-version} offers the following upgrade channels:
+[id="fast-version-channel_{context}"]
+== fast-{product-version} channel
+The `fast-{product-version}` channel is updated with new versions of {product-title} {product-version} as soon as Red Hat declares the version as a general availability (GA) release. As such, these releases are fully supported and purposed to be used in production environments.
 
-* `candidate-{product-version}`
-* `fast-{product-version}`
-* `stable-{product-version}`
-* `eus-4.6` (only available when running 4.6)
+[id="stable-version-channel_{context}"]
+== stable-{product-version} channel
+While the `fast-{product-version}` channel contains releases as soon as their errata are published, releases are added to the `stable-{product-version}` channel after a delay. During this delay, data is collected from multiple sources and analyzed for indications of product regressions. Once a significant number of data points have been collected, and absent negative signals, these releases are added to the stable channel.
 
-endif::openshift-origin[]
-ifdef::openshift-origin[]
-{product-title} {product-version} offers the following upgrade channel:
+[NOTE]
+Since the time required to obtain a significant number of data points varies based on many factors, Service LeveL Objective (SLO) is not offered for the delay duration between fast and stable channels. For more information, please see "Choosing the correct channel for your cluster"
 
-* `stable-4`
 
-endif::openshift-origin[]
+Newly installed clusters default to using stable channels.
 
-ifndef::openshift-origin[]
-[discrete]
-== candidate-{product-version} channel
+[id="eus-4y-channel_{context}"]
+== eus-4.y channel
 
-The `candidate-{product-version}` channel contains candidate builds for a z-stream ({product-version}.z) and previous minor version releases. Release candidates contain all the features of the product but are not supported. Use release candidate versions to test feature acceptance and assist in qualifying the next version of {product-title}. A release candidate is any build that is available in the candidate channel, including ones that do not contain link:https://semver.org/spec/v2.0.0.html#spec-item-9[a pre-release version] such as `-rc` in their names. After a version is available in the candidate channel, it goes through more quality checks. If it meets the quality standard, it is promoted to the `fast-{product-version}` or `stable-{product-version}` channels. Because of this strategy, if a specific release is available in both the `candidate-{product-version}` channel and in the `fast-{product-version}` or `stable-{product-version}` channels, it is a Red Hat-supported version. The `candidate-{product-version}` channel can include release versions from which there are no recommended updates in any channel.
-
-You can use the `candidate-{product-version}` channel to upgrade from a previous minor version of {product-title}.
+In addition to the stable channel, all even-numbered minor versions of {product-title} offer link:https://access.redhat.com/support/policy/updates/openshift#ocp4_phases[Extended Update Support] (EUS). Releases promoted to the stable channel are also simultaneously promoted to the EUS channels. The primary purpose of the EUS channels is to serve as a convenience for clusters performing an EUS-to-EUS update.
 
 [NOTE]
 ====
-Release candidates differ from the nightly builds. Nightly builds are available for early access to features, but updating to or from nightly builds is neither recommended nor supported. Nightly builds are not available in any upgrade channel. You can reference the {product-title}
-ifdef::openshift-origin[]
-link:https://origin-release.apps.ci.l2s4.p1.openshiftapps.com/[release statuses]
-endif::[]
-ifndef::openshift-origin[]
-link:https://openshift-release.apps.ci.l2s4.p1.openshiftapps.com/[release statuses]
-endif::[]
-for more build information.
+Both standard and non-EUS subscribers can access all EUS repositories and necessary RPMs (`rhel-*-eus-rpms`) to be able to support critical purposes such as debugging and building drivers.
 ====
 
-[discrete]
-== fast-{product-version} channel
+[id="candidate-version-channel_{context}"]
+== candidate-{product-version} channel
 
-The `fast-{product-version}` channel is updated with new and previous minor versions of {product-version} as soon as Red Hat declares the given version as a general availability release. As such, these releases are fully supported, are production quality, and have performed well while available as a release candidate in the `candidate-{product-version}` channel from where they were promoted. Some time after a release appears in the `fast-{product-version}` channel, it is added to the `stable-{product-version}` channel. Releases never appear in the `stable-{product-version}` channel before they appear in the `fast-{product-version}` channel.
+The `candidate-{product-version}` channel offers unsupported early access to releases as soon as they are built. Releases present only in candidate channels
+may not contain the full feature set of eventual GA releases or features may be removed prior to GA. Additionally, these releases have not been subject to full
+Red Hat Quality Assurance and may not offer update paths to later GA releases. Given these caveats, the candidate channel is only suitable for testing purposes
+where destroying and recreating a cluster is acceptable.
 
-You can use the `fast-{product-version}` channel to upgrade from a previous minor version of {product-title}.
-endif::openshift-origin[]
-
-ifndef::openshift-origin[]
-[discrete]
-== stable-{product-version} channel
-While the `fast-{product-version}` channel contains releases as soon as their errata are published, releases are added to the `stable-{product-version}` channel after a delay. During this delay, data is collected from Red Hat SRE teams, Red Hat support services, and pre-production and production environments that participate in connected customer program about the stability of the release.
-
-You can use the `stable-{product-version}` channel to upgrade from a previous minor version of {product-title}.
-endif::openshift-origin[]
 ifdef::openshift-origin[]
-[discrete]
+[id="stable-4-channel_{context}"]
 == stable-4 channel
-Releases are added to the `stable-4` channel after passing all tests.
-
-You can use the `stable-4` channel to upgrade from a previous minor version of {product-title}.
+Releases are added to the `stable-4` channel after passing all tests and stable-4 is the only supported channel.
 endif::openshift-origin[]
 
-ifndef::openshift-origin[]
-[discrete]
-== eus-4.6 channel
 
-In addition to the stable channel, certain minor versions of {product-title} offer an link:https://access.redhat.com/support/policy/updates/openshift#ocp4_phases[Extended Update Support] (EUS). These EUS versions extend the maintenance phase for customers with Premium Subscriptions to 14 months. {product-title} 4.6 is currently the only minor version with EUS.
 
-Although there is no difference between stable-4.6 and eus-4.6 channels until {product-title} 4.6 transitions to the EUS phase, you can switch to the EUS channel as soon as it becomes available. When {product-title} 4.6 transitions to the EUS phase of its lifecycle, the stable-4.6 channel will no longer receive subsequent z-stream updates. After you upgrade to a version that is exclusive to the EUS channel, that cluster will no longer be eligible for minor version upgrades until upgrades to the next EUS version become available. The next planned EUS version is to be 4.10 and the upgrade to that version will require a serial set of version upgrades, such as from 4.6 to 4.7 to 4.8 to 4.9 to 4.10.
+[id="upgrade-version-paths_{context}"]
+== Update recommendations in the channel
 
-Additionally, you may only switch to the EUS channel when your cluster is running a supported version of {product-title} 4.6.
+{product-title} maintains an update recommendation service that knows your installed {product-title} version and the path to take within the channel to get you to the next release. Update paths are also limited to versions relevant to your currently selected channel and its promotion characteristics.
 
-Finally, if you install a 4.6 version that is exclusive to EUS, you will similarly not be able to upgrade to a later minor version until upgrades are provided to 4.10.
-endif::openshift-origin[]
-
-[discrete]
-== Upgrade version paths
-
-{product-title} maintains an upgrade recommendation service that understands the version of {product-title} you have installed as well as the path to take within the channel you choose to get you to the next release.
-
-ifndef::openshift-origin[]
-You can imagine seeing the following in the `fast-{product-version}` channel:
-endif::openshift-origin[]
-ifdef::openshift-origin[]
-You can imagine seeing the following in the `stable-4` channel:
-endif::openshift-origin[]
+You can imagine seeing the following releases in your channel:
 
 * {product-version}.0
 * {product-version}.1
 * {product-version}.3
 * {product-version}.4
 
-The service recommends only upgrades that have been tested and have no serious issues. It will not suggest updating to a version of {product-title} that contains known vulnerabilities. For example, if your cluster is on {product-version}.1 and {product-title} suggests {product-version}.4, then it is safe for you to update from {product-version}.1 to {product-version}.4. Do not rely on consecutive patch numbers. In this example, {product-version}.2 is not and never was available in the channel.
+The service recommends only updates that have been tested and have no known serious regressions. For example, if your cluster is on {product-version}.1 and {product-title} suggests {product-version}.4, then it is recommended to update from {product-version}.1 to {product-version}.4.
+
+[IMPORTANT]
+====
+Do not rely on consecutive patch numbers. In this example, {product-version}.2 is not and never was available in the channel, therefore updates to {product-version}.2 are not recommended or supported.
+====
+
+[id="conditional-updates-overview_{context}"]
+== Update recommendation removals and Conditional Updates
+Red Hat monitors newly released versions and update paths associated with those versions before and after they are added to supported channels. If a serious regression is identified, Red Hat may remove affected update recommendations. When Red Hat chooses to remove update recommendations, that action is taken in all relevant channels simultaneously. The removal of recommended updates may happen either before or after updates have been promoted to supported channels.
+
+If Red Hat removes update recommendations from any supported release, a superseding update recommendation will be provided to a future version that corrects the regression. There may however be a delay while the defect is corrected, tested, and promoted to your selected channel.
+
+Beginning in {product-title} 4.10, when update recommendations are removed from supported channels, they are replaced with Conditional Updates that declare one or more known risks. Each known risk may apply to all clusters or only clusters matching certain conditions. Some examples include having the `Platform` set to `None` or the CNI provider set to `OpenShiftSDN`. The Cluster Version Operator (CVO) continually evaluates known risks against the current cluster state. If no risks match, the update is recommended. If the risk matches, those updates are listed as a `Supported But Not Recommended` update and a reference link is provided. The reference link helps the cluster admin decide if they would like to accept the risk and update anyway.
 
 ifndef::openshift-origin[]
-Update stability depends on your channel. The presence of an update recommendation in the `candidate-{product-version}` channel does not imply that the update is supported. It means that no serious issues have been found with the update yet, but there might not be significant traffic through the update to suggest stability. The presence of an update recommendation in the `fast-{product-version}` or `stable-{product-version}` channels at any point is a declaration that the update is supported. While releases will never be removed from a channel, update recommendations that exhibit serious issues will be removed from all channels. Updates initiated after the update recommendation has been removed are still supported.
 
-Red Hat will eventually provide supported update paths from any supported release in the `fast-{product-version}` or `stable-{product-version}` channels to the latest release in {product-version}.z, although there can be delays while safe paths away from troubled releases are constructed and verified.
+[id="fast-stable-channel-strategies_{context}"]
+== Choosing the correct channel for your cluster
+
+Choosing the appropriate channel involves two decisions.
+
+First, select the minor version you want for your cluster upgrade. Selecting a channel which matches your current version ensures that you only apply z-stream updates and do not receive feature updates. Selecting an available channel which has a version greater than your current version will ensure that after one or more updates your cluster will have updated to that version. Your cluster will only be offered channels which match its current version, the next version, or the next EUS version.
+
+[NOTE]
+====
+Due to the complexity involved in planning upgrades between versions many minors apart, channels that assist in planning upgrades beyond a single EUS-to-EUS update are not offered.
+====
+
+Second, you should choose your desired rollout strategy. You may choose to update as soon as Red Hat declares a release GA by selecting from fast channels or you may want to wait for Red Hat to promote releases to the stable channel. Update recommendations offered in the `fast-{product-version}` and `stable-{product-version}` are both fully supported and benefit equally from ongoing data analysis. The promotion delay before promoting release to the stable channel represents the only difference between the two channels. Updates to the latest z-streams are generally promoted to the stable channel within a week or two, however the delay when initially rolling out updates to the latest minor is much longer, generally 45-90 days. Please consider the promotion delay when choosing your desired channel as waiting for promotion to the stable channel may affect your scheduling plans.
+
+Additionally, there are several factors which may lead an organization to move clusters to the fast channel either permanently or temporarily including:
+
+* The desire to apply a specific fix known to affect your environment without delay.
+* Application of CVE fixes without delay. CVE fixes may introduce regressions, so promotion delays still apply to z-streams with CVE fixes.
+* Internal testing processes. If it takes your organization several weeks to qualify releases it is best test concurrently with our promotion process rather than waiting. This also assures that any telemetry signal provided to Red Hat is a factored into our rollout, so issues relevant to you can be fixed faster.
+
 endif::openshift-origin[]
 
-ifdef::openshift-origin[]
-The presence of an update recommendation in the `stable-4` channel at any point is a declaration that the update is supported. While releases will never be removed from the channel, update recommendations that exhibit serious issues will be removed from the channel. Updates initiated after the update recommendation has been removed are still supported.
-endif::openshift-origin[]
-
-ifndef::openshift-origin[]
-[discrete]
-== Fast and stable channel use and strategies
-
-The `fast-{product-version}` and `stable-{product-version}` channels present a choice between receiving general availability releases as soon as they are available or allowing Red Hat to control the rollout of those updates. If issues are detected during rollout or at a later time, upgrades to that version might be blocked in both the `fast-{product-version}` and `stable-{product-version}` channels, and a new version might be introduced that becomes the new preferred upgrade target.
-
-Customers can improve this process by configuring pre-production systems on the `fast-{product-version}` channel, configuring production systems on the `stable-{product-version}` channel, and participating in the Red Hat connected customer program. Red Hat uses this program to observe the impact of updates on your specific hardware and software configurations. Future releases might improve or alter the pace at which updates move from the `fast-{product-version}` to the `stable-{product-version}` channel.
-endif::openshift-origin[]
-
-[discrete]
+[id="restricted-network-clusters_{context}"]
 == Restricted network clusters
 
-If you manage the container images for your {product-title} clusters yourself, you must consult the Red Hat errata that is associated with product releases and note any comments that impact upgrades. During upgrade, the user interface might warn you about switching between these versions, so you must ensure that you selected an appropriate version before you bypass those warnings.
+If you manage the container images for your {product-title} clusters yourself, you must consult the Red Hat errata that is associated with product releases and note any comments that impact updates. During an update, the user interface might warn you about switching between these versions, so you must ensure that you selected an appropriate version before you bypass those warnings.
 
 ifndef::openshift-origin[]
-[discrete]
+
+[id="switching-between-channels_{context}"]
 == Switching between channels
 
-Your cluster is still supported if you change from the `stable-{product-version}` channel to the `fast-{product-version}` channel. Although you can switch to the `candidate-{product-version}` channel at any time, some releases in that channel might be unsupported release candidates. You can switch from the `candidate-{product-version}` channel to the `fast-{product-version}` channel if your current release is a general availability release. You can always switch from the `fast-{product-version}` channel to the `stable-{product-version}` channel, although if the current release was recently promoted to `fast-{product-version}` there can be a delay of up to a day for the release to be promoted to `stable-{product-version}`. If you change to a channel that does not include your current release, an alert displays and no updates can be recommended, but you can safely change back to your original channel at any point.
+A channel can be switched from the web console or through the `adm upgrade channel` command:
+
+[source,terminal]
+----
+$ oc adm upgrade channel <channel>
+----
+
+The web console will display an alert if you switch to a channel that does not include the current release. The web console does not recommend any updates while on a channel without the current release. You can return to the original channel at any point, however.
+
+Changing your channel might impact the supportability of your cluster. The following conditions might apply:
+
+* Your cluster is still supported if you change from the `stable-{product-version}` channel to the `fast-{product-version}` channel.
+
+* You can switch to the `candidate-{product-version}` channel at any time, but some releases for this channel might be unsupported.
+
+* You can switch from the `candidate-{product-version}` channel to the `fast-{product-version}` channel if your current release is a general availability release.
+
+* You can always switch from the `fast-{product-version}` channel to the `stable-{product-version}` channel. There is a possible delay of up to a day for the release to be promoted to `stable-{product-version}` if the current release was recently promoted.
 endif::openshift-origin[]

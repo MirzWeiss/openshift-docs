@@ -2,6 +2,7 @@
 //
 // scalability_and_performance/managing-bare-metal-hosts.adoc
 
+:_content-type: PROCEDURE
 [id="adding-bare-metal-host-to-cluster-using-yaml_{context}"]
 = Adding a bare metal host to the cluster using YAML in the web console
 
@@ -42,5 +43,5 @@ spec:
 +
 [NOTE]
 ====
-You can also manage the number of bare metal nodes using the `oc scale` command and the appropriate bare metal machine set.
+You can also manage the number of bare metal nodes using the `oc scale` command and the appropriate bare metal compute machine set.
 ====

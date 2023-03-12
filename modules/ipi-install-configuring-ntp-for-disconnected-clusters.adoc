@@ -2,9 +2,10 @@
 //
 // installing/installing_bare_metal_ipi/ipi-install-configuration-files
 // installing/installing_bare_metal_ipi/ipi-install-post-installation-configuration.adoc
-[id="configuring-ntp-for-disconnected-clusters_{context}"]
 
-= Configuring NTP for disconnected clusters (optional)
+:_content-type: PROCEDURE
+[id="configuring-ntp-for-disconnected-clusters_{context}"]
+= Optional: Configuring NTP for disconnected clusters
 
 //This procedure can be executed as a day 1 or day 2 operation with minor differences.
 //The conditional text picks up the context and displays the appropriate alternate steps.
@@ -34,7 +35,7 @@ See "Creating machine configs with Butane" for information about Butane.
 .Butane config example
 ----
 variant: openshift
-version: 4.8.0
+version: 4.12.0
 metadata:
   name: 99-master-chrony-conf-override
   labels:
@@ -92,7 +93,7 @@ $ butane 99-master-chrony-conf-override.bu -o 99-master-chrony-conf-override.yam
 .Butane config example
 ----
 variant: openshift
-version: 4.8.0
+version: 4.12.0
 metadata:
   name: 99-worker-chrony-conf-override
   labels:

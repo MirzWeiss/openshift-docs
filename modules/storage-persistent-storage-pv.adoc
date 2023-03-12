@@ -1,6 +1,7 @@
 // Module included in the following assemblies:
 //
 // * storage/understanding-persistent-storage.adoc
+//* microshift_storage/understanding-persistent-storage-microshift.adoc
 
 [id="persistent-volumes_{context}"]
 = Persistent volumes
@@ -34,7 +35,7 @@ once it is released.
 [id="types-of-persistent-volumes_{context}"]
 == Types of PVs
 
-{product-title} supports the following persistent volume plug-ins:
+{product-title} supports the following persistent volume plugins:
 
 // - GlusterFS
 // - Ceph RBD
@@ -48,14 +49,15 @@ ifdef::openshift-enterprise,openshift-webscale,openshift-origin[]
 - Cinder
 - Fibre Channel
 endif::openshift-enterprise,openshift-webscale,openshift-origin[]
-- GCE Persistent Disk
+- GCP Persistent Disk
+- GCP Filestore
 ifdef::openshift-enterprise,openshift-webscale,openshift-origin,openshift-aro[]
 - HostPath
 - iSCSI
 - Local volume
 - NFS
 - OpenStack Manila
-- Red Hat OpenShift Container Storage
+- {rh-storage-first}
 endif::openshift-enterprise,openshift-webscale,openshift-origin,openshift-aro[]
 ifdef::openshift-enterprise,openshift-webscale,openshift-origin[]
 - VMware vSphere
@@ -134,27 +136,34 @@ used simultaneously by two nodes. Before draining the node, first ensure
 the pods that use these volumes are deleted.
 ====
 
+ifndef::microshift[]
 .Supported access modes for PVs
 [cols=",^v,^v,^v", width="100%",options="header"]
 |===
-|Volume plug-in  |ReadWriteOnce ^[1]^  |ReadOnlyMany  |ReadWriteMany
+|Volume plugin  |ReadWriteOnce ^[1]^  |ReadOnlyMany  |ReadWriteMany
+ifdef::microshift[]
+|Local volume| ✅ | - |  -
+endif::[]
+ifndef::microshift[]
 |AWS EBS ^[2]^ | ✅ | - |  -
-ifdef::openshift-enterprise,openshift-webscale,openshift-origin[]
+endif::microshift[]
+ifdef::openshift-enterprise,openshift-webscale,openshift-origin,microshift[]
 |Azure File | ✅ | ✅ | ✅
 |Azure Disk | ✅ | - | -
 //|Ceph RBD  | ✅ | ✅ |  -
 //|CephFS  | ✅ | ✅ |  ✅
 |Cinder  | ✅ | - |  -
 |Fibre Channel  | ✅ | ✅ |  -
-|GCE Persistent Disk  | ✅ | - |  -
+|GCP Persistent Disk  | ✅ | - |  -
+|GCP Filestore | ✅ | ✅ | ✅
 //|GlusterFS  | ✅ | ✅ | ✅
 |HostPath  | ✅ | - |  -
 |iSCSI  | ✅ | ✅ |  -
 |Local volume | ✅ | - |  -
 |NFS  | ✅ | ✅ | ✅
 |OpenStack Manila  | - | - | ✅
-|Red Hat OpenShift Container Storage  | ✅ | - | ✅
-|VMware vSphere | ✅ | - |  -
+|{rh-storage-first}  | ✅ | - | ✅
+|VMware vSphere | ✅ | - | ✅ ^[3]^ 
 endif::[]
 
 |===
@@ -162,24 +171,17 @@ endif::[]
 --
 1. ReadWriteOnce (RWO) volumes cannot be mounted on multiple nodes. If a node fails, the system does not allow the attached RWO volume to be mounted on a new node because it is already assigned to the failed node. If you encounter a multi-attach error message as a result, force delete the pod on a shutdown or crashed node to avoid data loss in critical workloads, such as when dynamic persistent volumes are attached.
 2. Use a recreate deployment strategy for pods that rely on AWS EBS.
+3. If the underlying vSphere environment supports the vSAN file service, then the vSphere Container Storage Interface (CSI) Driver Operator installed by
+{product-title} supports provisioning of ReadWriteMany (RWX) volumes. If you do not have vSAN file service configured, and you request RWX, the volume fails to get created and an error is logged. For more information, see "Using Container Storage Interface" -> "VMware vSphere CSI Driver Operator".
 // GCE Persistent Disks, or Openstack Cinder PVs.
 --
+endif::microshift[]
 
-ifdef::openshift-dedicated,openshift-online[]
+ifdef::openshift-online[]
 [id="pv-restrictions_{context}"]
 == Restrictions
 
 The following restrictions apply when using PVs with {product-title}:
-endif::[]
-
-ifdef::openshift-dedicated[]
- * PVs are provisioned with either EBS volumes (AWS) or GCP storage (GCP),
-depending on where the cluster is provisioned.
- * Only RWO access mode is applicable, as EBS volumes and GCE Persistent
-Disks cannot be mounted to multiple nodes.
- * *emptyDir* has the same lifecycle as the pod:
-   ** *emptyDir* volumes survive container crashes/restarts.
-   ** *emptyDir* volumes are deleted when the pod is deleted.
 endif::[]
 
 ifdef::openshift-online[]
@@ -238,8 +240,8 @@ ifdef::openshift-enterprise,openshift-webscale,openshift-origin[]
 [id="pv-mount-options_{context}"]
 === Mount options
 
-You can specify mount options while mounting a PV by using the annotation
-`volume.beta.kubernetes.io/mount-options`.
+You can specify mount options while mounting a PV by using the attribute
+`mountOptions`.
 
 For example:
 
@@ -250,13 +252,13 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: pv0001
-  annotations:
-    volume.beta.kubernetes.io/mount-options: rw,nfsvers=4,noexec <1>
 spec:
   capacity:
     storage: 1Gi
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
+  mountOptions: <1>
+    - nfsvers=4.1
   nfs:
     path: /tmp
     server: 172.17.0.2
@@ -279,7 +281,7 @@ The following PV types support mount options:
 - iSCSI
 - Local volume
 - NFS
-- Red Hat OpenShift Container Storage (Ceph RBD only)
+- {rh-storage-first} (Ceph RBD only)
 - VMware vSphere
 
 [NOTE]

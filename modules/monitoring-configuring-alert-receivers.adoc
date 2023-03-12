@@ -3,6 +3,7 @@
 // * monitoring/managing-alerts.adoc
 // * post_installation_configuration/configuring-alert-notifications.adoc
 
+:_content-type: PROCEDURE
 [id="configuring-alert-receivers_{context}"]
 = Configuring alert receivers
 
@@ -14,7 +15,7 @@ You can configure alert receivers to ensure that you learn about important issue
 
 .Procedure
 
-. In the *Administrator* perspective, navigate to *Administration* -> *Cluster Settings* -> *Global Configuration* -> *Alertmanager*.
+. In the *Administrator* perspective, navigate to *Administration* -> *Cluster Settings* -> *Configuration* -> *Alertmanager*.
 +
 [NOTE]
 ====

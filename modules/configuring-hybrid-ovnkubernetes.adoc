@@ -2,8 +2,10 @@
 //
 // * installing/installing_aws/installing-aws-network-customizations.adoc
 // * installing/installing_azure/installing-azure-network-customizations.adoc
+// * installing/installing_azure_stack_hub/installing-azure-stack-hub-network-customizations.adoc
 // * networking/ovn_kubernetes_network_provider/configuring-hybrid-networking.adoc
 
+:_content-type: PROCEDURE
 [id="configuring-hybrid-ovnkubernetes_{context}"]
 = Configuring hybrid networking with OVN-Kubernetes
 
@@ -24,7 +26,7 @@ You must configure hybrid networking with OVN-Kubernetes during the installation
 +
 [source,terminal]
 ----
-$ ./openshift-install create manifests --dir=<installation_directory>
+$ ./openshift-install create manifests --dir <installation_directory>
 ----
 +
 --

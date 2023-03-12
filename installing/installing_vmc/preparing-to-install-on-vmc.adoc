@@ -1,6 +1,7 @@
+:_content-type: ASSEMBLY
 [id="preparing-to-install-on-vmc"]
 = Preparing to install on VMC
-include::modules/common-attributes.adoc[]
+include::_attributes/common-attributes.adoc[]
 :context: preparing-to-install-on-vmc
 
 toc::[]
@@ -41,7 +42,7 @@ Installer-provisioned infrastructure allows the installation program to pre-conf
 * **xref:../../installing/installing_vmc/installing-vmc-network-customizations.adoc#installing-vmc-network-customizations[Installing a cluster on VMC with network customizations]**: You can install {product-title} on installer-provisioned VMC infrastructure, with network customizations. You can customize your {product-title} network configuration during installation, so that your cluster can coexist with your existing IP address allocations and adhere to your network requirements.
 
 * **xref:../../installing/installing_vmc/installing-restricted-networks-vmc.adoc#installing-restricted-networks-vmc[Installing a cluster on VMC in a restricted network]**: You can install a cluster on VMC infrastructure in a restricted network by creating an internal mirror of the installation release content.
- You can use this method to deploy {product-title} on an internal network that is not visible to the Internet.
+ You can use this method to deploy {product-title} on an internal network that is not visible to the internet.
 
 [id="user-provisioned-method-to-install-ocp-on-vmc"]
 === User-provisioned infrastructure installation of {product-title} on VMC
@@ -53,6 +54,15 @@ User-provisioned infrastructure requires the user to provision all resources req
 * **xref:../../installing/installing_vmc/installing-vmc-network-customizations-user-infra.adoc#installing-vmc-network-customizations-user-infra[Installing a cluster on VMC with user-provisioned infrastructure and network customizations]**: You can install {product-title} on VMC infrastructure that you provision with customized network configuration options.
 
 * **xref:../../installing/installing_vmc/installing-restricted-networks-vmc-user-infra.adoc#installing-restricted-networks-vmc-user-infra[Installing a cluster on VMC in a restricted network with user-provisioned infrastructure]**: {product-title} can be installed on VMC infrastructure that you provision in a restricted network.
+
+include::modules/installation-vsphere-infrastructure.adoc[leveloffset=+1]
+
+include::modules/vmware-csi-driver-reqs.adoc[leveloffset=+1]
+
+[role="_additional-resources"]
+.Additional resources
+
+* To remove a third-party CSI driver, see xref:../../storage/container_storage_interface/persistent-storage-csi-vsphere.adoc#persistent-storage-csi-vsphere-install-issues_persistent-storage-csi-vsphere[Removing a third-party vSphere CSI Driver].
 
 [id="method-to-uninstall-ocp-on-vmc"]
 == Uninstalling an installer-provisioned infrastructure installation of {product-title} on VMC

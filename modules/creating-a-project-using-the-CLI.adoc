@@ -2,6 +2,7 @@
 //
 // applications/projects/working-with-projects.adoc
 
+:_content-type: PROCEDURE
 [id="creating-a-project-using-the-CLI_{context}"]
 = Creating a project using the CLI
 
@@ -19,16 +20,16 @@ You cannot assign an SCC to pods created in one of the default namespaces: `defa
 
 .Procedure
 
-. Run:
-
+* Run:
++
 [source,terminal]
 ----
 $ oc new-project <project_name> \
     --description="<description>" --display-name="<display_name>"
 ----
-
++
 For example:
-
++
 [source,terminal]
 ----
 $ oc new-project hello-openshift \
@@ -39,8 +40,8 @@ $ oc new-project hello-openshift \
 [NOTE]
 ====
 The number of projects you are allowed to create
-ifdef::openshift-enterprise,openshift-webscale,openshift-origin,openshift-dedicated[]
-may be limited by the system administrator.
+ifdef::openshift-enterprise,openshift-webscale,openshift-origin[]
+might be limited by the system administrator.
 endif::[]
 ifdef::openshift-online[]
 is limited.

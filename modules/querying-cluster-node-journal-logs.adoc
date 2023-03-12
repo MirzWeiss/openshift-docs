@@ -3,6 +3,7 @@
 // * support/gathering-cluster-data.adoc
 // * support/troubleshooting/verifying-node-health.adoc
 
+:_content-type: PROCEDURE
 [id="querying-cluster-node-journal-logs_{context}"]
 = Querying cluster node journal logs
 
@@ -17,7 +18,7 @@ You can gather `journald` unit logs and other logs within `/var/log` on individu
 
 .Procedure
 
-. Query `kubelet` `journald` unit logs from {product-title} cluster nodes. The following example queries control plane nodes (also known as the master nodes) only:
+. Query `kubelet` `journald` unit logs from {product-title} cluster nodes. The following example queries control plane nodes only:
 +
 [source,terminal]
 ----

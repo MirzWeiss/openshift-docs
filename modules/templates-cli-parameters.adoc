@@ -2,6 +2,7 @@
 //
 // * openshift_images/using-templates.adoc
 
+:_content-type: PROCEDURE
 [id="templates-cli-parameters_{context}"]
 = Listing parameters
 
@@ -23,7 +24,7 @@ Alternatively, if the template is already uploaded:
 $ oc process --parameters -n <project> <template_name>
 ----
 +
-For example, the following shows the output when listing the parameters for one of the Quickstart templates in the default `openshift` project:
+For example, the following shows the output when listing the parameters for one of the quick start templates in the default `openshift` project:
 +
 [source,terminal]
 ----

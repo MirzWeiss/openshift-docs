@@ -1,7 +1,7 @@
 // Module included in the following assemblies:
 // Epic CNF-78 (4.4)
 // Epic CNF-422 (4.5)
-// scalability_and_performance/cnf-performance-addon-operator-for-low-latency-nodes.adoc
+// scalability_and_performance/cnf-low-latency-tuning.adoc
 
 [id="cnf-tuning-nodes-for-low-latency-via-performanceprofile_{context}"]
 = Tuning nodes for low latency with the performance profile
@@ -13,6 +13,11 @@ The performance profile lets you control latency tuning aspects of nodes that be
 * The Tuned profile that configures the Node Tuning Operator.
 
 You can use a performance profile to specify whether to update the kernel to kernel-rt, to allocate huge pages, and to partition the CPUs for performing housekeeping duties or running workloads.
+
+[NOTE]
+====
+You can manually create the `PerformanceProfile` object or use the Performance Profile Creator (PPC) to generate a performance profile. See the additional resources below for more information on the PPC.
+====
 
 .Sample performance profile
 [source,yaml]

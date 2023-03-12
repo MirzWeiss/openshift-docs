@@ -2,6 +2,7 @@
 //
 // * ingress/routes.adoc
 
+:_content-type: PROCEDURE
 [id="nw-ingress-creating-an-edge-route-with-a-custom-certificate_{context}"]
 = Creating an edge route with a custom certificate
 
@@ -40,7 +41,7 @@ termination. The following assumes that the certificate/key pair are in the
 specify a CA certificate if needed to complete the certificate chain.
 Substitute the actual path names for `tls.crt`, `tls.key`, and (optionally)
 `ca.crt`. Substitute the name of the service that you want to expose
-for `frontend`. Substitute the appropriate host name for `www.example.com`.
+for `frontend`. Substitute the appropriate hostname for `www.example.com`.
 
 * Create a secure `Route` resource using edge TLS termination and a custom certificate.
 +
@@ -55,7 +56,7 @@ following:
 .YAML Definition of the Secure Route
 [source,yaml]
 ----
-apiVersion: v1
+apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
   name: frontend

@@ -5,7 +5,7 @@
 [id="csi-drivers-supported_{context}"]
 = CSI drivers supported by {product-title}
 
-{product-title} installs certain CSI drivers by default, giving users storage options that are not possible with in-tree volume plug-ins.
+{product-title} installs certain CSI drivers by default, giving users storage options that are not possible with in-tree volume plugins.
 
 To create CSI-provisioned persistent volumes that mount to these supported storage assets, {product-title} installs the necessary CSI driver Operator, the CSI driver, and the required storage class by default. For more details about the default namespace of the Operator and driver, see the documentation for the specific CSI Driver Operator.
 
@@ -16,14 +16,38 @@ The following table describes the CSI drivers that are installed with {product-t
 |===
 |CSI driver  |CSI volume snapshots  |CSI cloning  |CSI resize
 
-|AWS EBS (Tech Preview) | ✅ | - | ✅
-|Google Cloud Platform (GCP) persistent disk (PD) (Tech Preview)| ✅ | - | ✅
-|Microsoft Azure Disk (Tech Preview) | ✅ | ✅ | ✅ 
+|AliCloud Disk | ✅ | - | ✅
+|AWS EBS | ✅ | - | ✅
+|AWS EFS | - | - | -
+|Google Compute Platform (GCP) persistent disk (PD)| ✅ | - | ✅
+|GCP Filestore | ✅ | ✅  | ✅
+|IBM VPC Block | ✅^[3]^ | - | ✅^[3]^
+|Microsoft Azure Disk | ✅ | ✅ | ✅
+|Microsoft Azure Stack Hub | ✅ | ✅ | ✅
+|Microsoft Azure File | - | - | ✅
 |OpenStack Cinder | ✅ | ✅ | ✅
-|OpenStack Manila | ✅ | ✅ | ✅
-|Red Hat Virtualization (oVirt) | - | - | -
-|VMware vSphere (Tech Preview) | - | - | -
+|OpenShift Data Foundation | ✅ | ✅ | ✅
+|OpenStack Manila | ✅ | - | -
+|Red Hat Virtualization (oVirt) | - | - | ✅
+|VMware vSphere | ✅^[1]^ | - | ✅^[2]^
 |===
+--
+1.
+
+* Requires vSphere version 7.0 Update 3 or later for both vCenter Server and ESXi.
+
+* Does not support fileshare volumes.
+
+2.
+
+* Offline volume expansion: minimum required vSphere version is 6.7 Update 3 P06
+
+* Online volume expansion: minimum required vSphere version is 7.0 Update 2.
+
+3.
+
+* Does not support offline snapshots or resize. Volume must be attached to a running pod.
+--
 
 [IMPORTANT]
 ====

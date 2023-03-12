@@ -7,6 +7,7 @@ ifeval::["{context}" == "olm-installing-operators-in-namespace"]
 :olm-user:
 endif::[]
 
+:_content-type: PROCEDURE
 [id="olm-installing-specific-version-cli_{context}"]
 = Installing a specific version of an Operator
 
@@ -18,9 +19,6 @@ ifndef::olm-user[]
 - Access to an {product-title} cluster using an account with
 ifdef::openshift-enterprise,openshift-webscale,openshift-origin[]
 `cluster-admin` permissions
-endif::[]
-ifdef::openshift-dedicated[]
-`dedicated-admins-cluster` permissions
 endif::[]
 endif::[]
 

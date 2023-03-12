@@ -2,6 +2,7 @@
 //
 // * storage/persistent_storage/persistent-storage-local.adoc
 
+:_content-type: PROCEDURE
 [id="local-storage-install_{context}"]
 = Installing the Local Storage Operator
 
@@ -71,7 +72,7 @@ such as `openshift-local-storage.yaml`:
 .Example openshift-local-storage.yaml
 [source,yaml]
 ----
-apiVersion: operators.coreos.com/v1alpha2
+apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
   name: local-operator-group

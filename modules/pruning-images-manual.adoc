@@ -2,10 +2,11 @@
 //
 // * applications/pruning-objects.adoc
 
+:_content-type: PROCEDURE
 [id="pruning-images-manual_{context}"]
 = Manually pruning images
 
-The pruning custom resource enables automatic image pruning. However, administrators can manually prune images that are no longer required by the system due to age, status, or exceed limits. There are two methods to manually prune images:
+The pruning custom resource enables automatic image pruning for the images from the internal registry. However, administrators can manually prune images that are no longer required by the system due to age, status, or exceed limits. There are two methods to manually prune images:
 
 * Running image pruning as a `Job` or `CronJob` on the cluster.
 * Running the `oc adm prune images` command.
@@ -157,7 +158,7 @@ This flag cannot be combined with `--keep-tag-revisions` nor
 |The address to use when contacting the registry. The command attempts to use a
 cluster-internal URL determined from managed images and image streams. In case
 it fails (the registry cannot be resolved or reached), an alternative route that
-works needs to be provided using this flag. The registry host name can be
+works needs to be provided using this flag. The registry hostname can be
 prefixed by `https://` or `http://`, which enforces particular connection
 protocol.
 
@@ -210,7 +211,7 @@ information that this operation is not allowed.
 
 Separating the removal of {product-title} image API objects and image data from the registry by using `--prune-registry=false`, followed by hard pruning the registry, can narrow timing windows and is safer when compared to trying to prune both through one command. However, timing windows are not completely removed.
 
-For example, you can still create a Pod referencing an image as pruning identifies that image for pruning. You should still keep track of an API object created during the pruning operations that might reference images so that you can mitigate any references to deleted content.
+For example, you can still create a pod referencing an image as pruning identifies that image for pruning. You should still keep track of an API object created during the pruning operations that might reference images so that you can mitigate any references to deleted content.
 
 Re-doing the pruning without the `--prune-registry` option or with `--prune-registry=true` does not lead to pruning the associated storage in the image registry for images previously pruned by `--prune-registry=false`. Any images that were pruned with `--prune-registry=false` can only be deleted from registry storage by hard pruning the registry.
 

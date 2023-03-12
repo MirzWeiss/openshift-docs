@@ -23,6 +23,7 @@ ifeval::["{context}" == "osdk-helm-tutorial"]
 :group: demo
 endif::[]
 
+:_content-type: PROCEDURE
 [id="osdk-create-cr_{context}"]
 = Creating a custom resource
 
@@ -59,6 +60,16 @@ ifndef::helm[]
   size: 3
 endif::[]
 ----
+
+ifdef::helm[]
+. The {app-proper} service account requires privileged access to run in {product-title}. Add the following security context constraint (SCC) to the service account for the `{app}-sample` pod:
++
+[source,terminal,subs="attributes+"]
+----
+$ oc adm policy add-scc-to-user \
+    anyuid system:serviceaccount:{app}-operator-system:{app}-sample
+----
+endif::[]
 
 . Create the CR:
 +

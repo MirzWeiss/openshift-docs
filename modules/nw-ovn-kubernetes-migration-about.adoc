@@ -3,30 +3,40 @@
 // * networking/ovn_kubernetes_network_provider/migrate-from-openshift-sdn.adoc
 
 [id="nw-ovn-kubernetes-migration-about_{context}"]
-= Migration to the OVN-Kubernetes network provider
+= Migration to the OVN-Kubernetes network plugin
 
-Migrating to the OVN-Kubernetes Container Network Interface (CNI) cluster network provider is a manual process that includes some downtime during which your cluster is unreachable. Although a rollback procedure is provided, the migration is intended to be a one-way process.
+Migrating to the OVN-Kubernetes network plugin is a manual process that includes some downtime during which your cluster is unreachable. Although a rollback procedure is provided, the migration is intended to be a one-way process.
+
+A migration to the OVN-Kubernetes network plugin is supported on the following platforms:
+
+* Bare metal hardware
+* Amazon Web Services (AWS)
+* Google Cloud Platform (GCP)
+* IBM Cloud
+* Microsoft Azure
+* {rh-openstack-first}
+* {rh-virtualization-first}
+* VMware vSphere
 
 [id="considerations-migrating-ovn-kubernetes-network-provider_{context}"]
-== Considerations for migrating to the OVN-Kubernetes network provider
+== Considerations for migrating to the OVN-Kubernetes network plugin
+
+If you have more than 150 nodes in your {product-title} cluster, then open a support case for consultation on your migration to the OVN-Kubernetes network plugin.
 
 The subnets assigned to nodes and the IP addresses assigned to individual pods are not preserved during the migration.
 
-While the OVN-Kubernetes network provider implements many of the capabilities present in the OpenShift SDN network provider, the configuration is not the same.
+While the OVN-Kubernetes network plugin implements many of the capabilities present in the OpenShift SDN network plugin, the configuration is not the same.
 
-* If your cluster uses any of the following OpenShift SDN capabilities, you must manually configure the same capability in OVN-Kubernetes:
+* If your cluster uses any of the following OpenShift SDN network plugin capabilities, you must manually configure the same capability in the OVN-Kubernetes network plugin:
 +
 --
 * Namespace isolation
-* Egress IP addresses
-* Egress network policies
 * Egress router pods
-* Multicast
 --
 
-* If your cluster uses any part of the `100.64.0.0/16` IP address range, you cannot migrate to OVN-Kubernetes because it uses this IP address range internally.
+* If your cluster or surrounding network uses any part of the `100.64.0.0/16` address range, you must choose another unused IP range by specifying the `v4InternalSubnet` spec under the `spec.defaultNetwork.ovnKubernetesConfig` object definition. OVN-Kubernetes uses the IP range `100.64.0.0/16` internally by default.
 
-The following sections highlight the differences in configuration between the aforementioned capabilities in OVN-Kubernetes and OpenShift SDN.
+The following sections highlight the differences in configuration between the aforementioned capabilities in OVN-Kubernetes and OpenShift SDN network plugins.
 
 [discrete]
 [id="namespace-isolation_{context}"]
@@ -36,12 +46,19 @@ OVN-Kubernetes supports only the network policy isolation mode.
 
 [IMPORTANT]
 ====
-If your cluster uses OpenShift SDN configured in either the multitenant or subnet isolation modes, you cannot migrate to the OVN-Kubernetes network provider.
+If your cluster uses OpenShift SDN configured in either the multitenant or subnet isolation modes, you cannot migrate to the OVN-Kubernetes network plugin.
 ====
 
 [discrete]
 [id="egress-ip-addresses_{context}"]
 === Egress IP addresses
+
+OpenShift SDN supports two different Egress IP modes:
+
+* In the _automatically assigned_ approach, an egress IP address range is assigned to a node.
+* In the _manually assigned_ approach, a list of one or more egress IP addresses is assigned to a node.
+
+The migration process supports migrating Egress IP configurations that use the automatically assigned mode.
 
 The differences in configuring an egress IP address between OVN-Kubernetes and OpenShift SDN is described in the following table:
 
@@ -79,7 +96,14 @@ The difference in configuring an egress network policy, also known as an egress 
 * Create an `EgressNetworkPolicy` object in a namespace
 |===
 
+[NOTE]
+====
+Because the name of an `EgressFirewall` object can only be set to `default`, after the migration all migrated `EgressNetworkPolicy` objects are named `default`, regardless of what the name was under OpenShift SDN.
+
+If you subsequently rollback to OpenShift SDN, all `EgressNetworkPolicy` objects are named `default` as the prior name is lost.
+
 For more information on using an egress firewall in OVN-Kubernetes, see "Configuring an egress firewall for a project".
+====
 
 [discrete]
 [id="egress-router-pods_{context}"]
@@ -139,7 +163,7 @@ CNO:: Performs the following actions:
 --
 * Destroys the OpenShift SDN control plane pods.
 * Deploys the OVN-Kubernetes control plane pods.
-* Updates the Multus objects to reflect the new cluster network provider.
+* Updates the Multus objects to reflect the new network plugin.
 --
 
 |
@@ -161,7 +185,7 @@ If a rollback to OpenShift SDN is required, the following table describes the pr
 |The MCO stops.
 
 |
-Set the `migration` field of the `Network.operator.openshift.io` custom resource (CR) named `cluster` to `OVNKubernetes`. Make sure the `migration` field is `null` before setting it to a value.
+Set the `migration` field of the `Network.operator.openshift.io` custom resource (CR) named `cluster` to `OpenShiftSDN`. Make sure the `migration` field is `null` before setting it to a value.
 |
 CNO:: Updates the status of the `Network.config.openshift.io` CR named `cluster` accordingly.
 
@@ -170,15 +194,15 @@ CNO:: Updates the status of the `Network.config.openshift.io` CR named `cluster`
 CNO:: Performs the following actions:
 +
 --
-* Destroys the OpenShift SDN control plane pods.
-* Deploys the OVN-Kubernetes control plane pods.
-* Updates the Multus objects to reflect the new cluster network provider.
+* Destroys the OVN-Kubernetes control plane pods.
+* Deploys the OpenShift SDN control plane pods.
+* Updates the Multus objects to reflect the new network plugin.
 --
 
 |
 Reboot each node in the cluster.
 |
-Cluster:: As nodes reboot, the cluster assigns IP addresses to pods on the OVN-Kubernetes cluster network.
+Cluster:: As nodes reboot, the cluster assigns IP addresses to pods on the OpenShift-SDN network.
 
 |
 Enable the MCO after all nodes in the cluster reboot.

@@ -1,12 +1,12 @@
 // Module included in the following assemblies:
 //
 // * virt/virtual_machines/virt-create-vms.adoc
-// * virt/virtual_machines/importing_vms/virt-importing-rhv-vm.adoc
 // * virt/vm_templates/virt-creating-vm-template.adoc
 
 [id="virt-storage-wizard-fields-web_{context}"]
 = Storage fields
 
+[cols="5a,3a,5a"]
 |===
 |Name |Selection |Description
 
@@ -15,7 +15,7 @@
 |Create an empty disk.
 
 |Import via URL (creates PVC)
-|Import content via URL (HTTP or S3 endpoint).
+|Import content via URL (HTTP or HTTPS endpoint).
 
 |Use an existing PVC
 |Use a PVC that is already available in the cluster.
@@ -48,59 +48,42 @@
 |Storage Class
 |
 |The storage class that is used to create the disk.
-
-|Advanced -> Volume Mode
-|
-|Defines whether the persistent volume uses a formatted file system or raw block state. Default is *Filesystem*.
-ifeval::["{context}" != "virt-importing-rhv-vm"]
-|Advanced -> Access Mode
-|
-|Access mode of the persistent volume. Supported access modes are *Single User (RWO)*, *Shared Access (RWX)*, and *Read Only (ROX)*.
-endif::[]
 |===
 
 [id="virt-storage-wizard-fields-advanced-web_{context}"]
 [discrete]
 == Advanced storage settings
 
-ifeval::["{context}" != "virt-importing-rhv-vm"]
-The following advanced storage settings are available for *Blank*, *Import via URL*, and *Clone existing PVC* disks. These parameters are optional. If you do not specify these parameters, the system uses the default values from the `kubevirt-storage-class-defaults` config map.
-endif::[]
+The following advanced storage settings are optional and available for *Blank*, *Import via URL*, and *Clone existing PVC* disks.  Before {VirtProductName} 4.11, if you do not specify these parameters, the system uses the default values from the `kubevirt-storage-class-defaults` config map. In {VirtProductName} 4.11 and later, the system uses the default values from the xref:../../virt/virtual_machines/virtual_disks/virt-creating-data-volumes.adoc#virt-customizing-storage-profile_virt-creating-data-volumes[storage profile].
 
-[cols="2a,3a,5a"]
+[NOTE]
+====
+Use storage profiles to ensure consistent advanced storage settings when provisioning storage for {VirtProductName}.
+
+To manually specify *Volume Mode* and *Access Mode*, you must clear the *Apply optimized StorageProfile settings* checkbox, which is selected by default.
+====
+
+[cols="5a,3a,3a,5a",options="header"]
 |===
-|Name | Parameter |  Description
+|Name |Mode description |Parameter |Parameter description
 
 .2+|Volume Mode
+
+.2+|Defines whether the persistent volume uses a formatted file system or raw block state. Default is *Filesystem*.
 |Filesystem
 |Stores the virtual disk on a file system-based volume.
-
 |Block
 |Stores the virtual disk directly on the block volume. Only use `Block` if the underlying storage supports it.
-
-ifeval::["{context}" == "virt-importing-rhv-vm"]
-.3+|Access Mode ^[1]^
-endif::[]
-ifeval::["{context}" != "virt-importing-rhv-vm"]
 .3+|Access Mode
-endif::[]
-|Single User (RWO)
-|The disk can be mounted as read/write by a single node.
-
-|Shared Access (RWX)
-|The disk can be mounted as read/write by many nodes.
-ifeval::["{context}" != "virt-importing-rhv-vm"]
+.3+|Access mode of the persistent volume.
+|ReadWriteOnce (RWO)
+|Volume can be mounted as read-write by a single node.
+|ReadWriteMany (RWX)
+|Volume can be mounted as read-write by many nodes at one time.
 [NOTE]
 ====
 This is required for some features, such as live migration of virtual machines between nodes.
 ====
-endif::[]
-
-|Read Only (ROX)
-|The disk can be mounted as read-only by many nodes.
+|ReadOnlyMany (ROX)
+|Volume can be mounted as read only by many nodes.
 |===
-ifeval::["{context}" == "virt-importing-rhv-vm"]
---
-1. You can change the access mode by using the command line interface.
---
-endif::[]

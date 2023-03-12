@@ -13,7 +13,7 @@ The following examples are specific to installing {product-title} on {rh-virtual
 `install-config.yaml` is located in `<installation_directory>`, which you specified when you ran the following command.
 [source,terminal]
 ----
-$ ./openshift-install create install-config --dir=<installation_directory>
+$ ./openshift-install create install-config --dir <installation_directory>
 ----
 
 [NOTE]
@@ -34,13 +34,19 @@ compute:
 - architecture: amd64
   hyperthreading: Enabled
   name: worker
-  platform: {}
+  platform:
+    ovirt:
+      sparse: false <1>
+      format: raw   <2>
   replicas: 3
 controlPlane:
   architecture: amd64
   hyperthreading: Enabled
   name: master
-  platform: {}
+  platform:
+      ovirt:
+        sparse: false <1>
+        format: raw   <2>
   replicas: 3
 metadata:
   creationTimestamp: null
@@ -51,18 +57,15 @@ networking:
     hostPrefix: 23
   machineNetwork:
   - cidr: 10.0.0.0/16
-ifndef::openshift-origin[]
-  networkType: OpenShiftSDN
-endif::openshift-origin[]
-ifdef::openshift-origin[]
-  networkType: OVNKubernetes
-endif::openshift-origin[]
+  networkType: OVNKubernetes <3>
   serviceNetwork:
   - 172.30.0.0/16
 platform:
   ovirt:
-    api_vip: 10.46.8.230
-    ingress_vip: 192.168.1.5
+    api_vips: 
+      - 10.0.0.10
+    ingress_vips: 
+      - 10.0.0.11
     ovirt_cluster_id: 68833f9f-e89c-4891-b768-e2ba0815b76b
     ovirt_storage_domain_id: ed7b0f4e-0e96-492a-8fff-279213ee1468
     ovirt_network_name: ovirtmgmt
@@ -72,6 +75,19 @@ pullSecret: '{"auths": ...}'
 sshKey: ssh-ed12345 AAAA...
 ----
 
+<1> Setting this option to `false` enables preallocation of disks. The default is `true`. Setting `sparse` to `true` with `format` set to `raw` is not available for block storage domains. The `raw` format writes the entire virtual disk to the underlying physical disk.
++
+[NOTE]
+====
+Preallocating disks on file storage domains writes zeroes to the file. This might not actually preallocate disks depending on the underlying storage.
+====
+<2> Can be set to `cow` or `raw`. The default is `cow`. The `cow` format is optimized for virtual machines.
+<3> The cluster network plugin to install. The supported values are `OVNKubernetes` and `OpenShiftSDN`. The default value is `OVNKubernetes`.
+
+[NOTE]
+====
+In {product-title} 4.12 and later, the `api_vip` and `ingress_vip` configuration settings are deprecated. Instead, use a list format to enter values in the `api_vips` and `ingress_vips` configuration settings.
+====
 
 [discrete]
 == Example minimal `install-config.yaml` file
@@ -84,8 +100,10 @@ metadata:
   name: test-cluster
 platform:
   ovirt:
-    api_vip: 10.46.8.230
-    ingress_vip: 10.46.8.232
+    api_vips: 
+      - 10.46.8.230
+    ingress_vips: 
+      - 10.46.8.232
     ovirt_cluster_id: 68833f9f-e89c-4891-b768-e2ba0815b76b
     ovirt_storage_domain_id: ed7b0f4e-0e96-492a-8fff-279213ee1468
     ovirt_network_name: ovirtmgmt
@@ -94,6 +112,10 @@ pullSecret: '{"auths": ...}'
 sshKey: ssh-ed12345 AAAA...
 ----
 
+[NOTE]
+====
+In {product-title} 4.12 and later, the `api_vip` and `ingress_vip` configuration settings are deprecated. Instead, use a list format to enter values in the `api_vips` and `ingress_vips` configuration settings.
+====
 
 [discrete]
 == Example Custom machine pools in an `install-config.yaml` file
@@ -130,8 +152,10 @@ metadata:
   name: test-cluster
 platform:
   ovirt:
-    api_vip: 10.46.8.230
-    ingress_vip: 10.46.8.232
+    api_vips: 
+      - 10.46.8.230
+    ingress_vips: 
+      - 10.46.8.232
     ovirt_cluster_id: 68833f9f-e89c-4891-b768-e2ba0815b76b
     ovirt_storage_domain_id: ed7b0f4e-0e96-492a-8fff-279213ee1468
     ovirt_network_name: ovirtmgmt
@@ -139,6 +163,11 @@ platform:
 pullSecret: '{"auths": ...}'
 sshKey: ssh-ed25519 AAAA...
 ----
+
+[NOTE]
+====
+In {product-title} 4.12 and later, the `api_vip` and `ingress_vip` configuration settings are deprecated. Instead, use a list format to enter values in the `api_vips` and `ingress_vips` configuration settings.
+====
 
 [discrete]
 == Example non-enforcing affinity group

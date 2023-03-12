@@ -2,6 +2,7 @@
 //
 // * authentication/ldap-syncing.adoc
 
+:_content-type: PROCEDURE
 [id="ldap-syncing-augmented-activedir_{context}"]
 = Syncing groups using the augmented Active Directory schema
 
@@ -70,7 +71,7 @@ $ oc adm groups sync --sync-config=augmented_active_directory_config.yaml --conf
 {product-title} creates the following group record as a result of the above sync
 operation:
 +
-.OpenShift group created by using the `augmented_active_directory_config.yaml` file
+.{product-title} group created by using the `augmented_active_directory_config.yaml` file
 
 [source,yaml]
 ----

@@ -1,6 +1,7 @@
+:_content-type: ASSEMBLY
 [id="installing-vmc-user-infra"]
 = Installing a cluster on VMC with user-provisioned infrastructure
-include::modules/common-attributes.adoc[]
+include::_attributes/common-attributes.adoc[]
 :context: installing-vmc-user-infra
 
 toc::[]
@@ -8,6 +9,8 @@ toc::[]
 In {product-title} version {product-version}, you can install a cluster on VMware vSphere infrastructure that you provision by deploying it to link:https://cloud.vmware.com/vmc-aws[VMware Cloud (VMC) on AWS].
 
 Once you configure your VMC environment for {product-title} deployment, you use the {product-title} installation program from the bastion management host, co-located in the VMC environment. The installation program and control plane automates the process of deploying and managing the resources needed for the {product-title} cluster.
+
+include::snippets/vcenter-support.adoc[]
 
 include::modules/setting-up-vmc-for-vsphere.adoc[leveloffset=+1]
 include::modules/vmc-sizer-tool.adoc[leveloffset=+2]
@@ -28,7 +31,25 @@ include::modules/cluster-entitlements.adoc[leveloffset=+1]
 
 include::modules/installation-vsphere-infrastructure.adoc[leveloffset=+1]
 
-include::modules/installation-requirements-user-infra.adoc[leveloffset=+1]
+include::modules/vmware-csi-driver-reqs.adoc[leveloffset=+1]
+
+[role="_additional-resources"]
+.Additional resources
+
+* To remove a third-party CSI driver, see xref:../../storage/container_storage_interface/persistent-storage-csi-vsphere.adoc#persistent-storage-csi-vsphere-install-issues_persistent-storage-csi-vsphere[Removing a third-party vSphere CSI Driver].
+* To update the hardware version for your vSphere nodes, see xref:../../updating/updating-hardware-on-nodes-running-on-vsphere.adoc#updating-hardware-on-nodes-running-on-vsphere[Updating hardware on nodes running in vSphere].
+
+[id="installation-requirements-user-infra_{context}"]
+== Requirements for a cluster with user-provisioned infrastructure
+
+For a cluster that contains user-provisioned infrastructure, you must deploy all
+of the required machines.
+
+This section describes the requirements for deploying {product-title} on user-provisioned infrastructure.
+
+include::modules/installation-machine-requirements.adoc[leveloffset=+2]
+include::modules/installation-minimum-resource-requirements.adoc[leveloffset=+2]
+include::modules/csr-management.adoc[leveloffset=+2]
 
 include::modules/installation-network-user-infra.adoc[leveloffset=+2]
 
@@ -91,6 +112,13 @@ include::modules/installation-complete-user-infra.adoc[leveloffset=+1]
 You can add extra compute machines after the cluster installation is completed by following xref:../../machine_management/user_infra/adding-vsphere-compute-user-infra.adoc#adding-vsphere-compute-user-infra[Adding compute machines to vSphere].
 
 include::modules/persistent-storage-vsphere-backup.adoc[leveloffset=+1]
+
+include::modules/cluster-telemetry.adoc[leveloffset=+1]
+
+[role="_additional-resources"]
+.Additional resources
+
+* See xref:../../support/remote_health_monitoring/about-remote-health-monitoring.adoc#about-remote-health-monitoring[About remote health monitoring] for more information about the Telemetry service
 
 == Next steps
 

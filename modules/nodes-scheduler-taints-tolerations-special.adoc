@@ -3,6 +3,7 @@
 // * nodes/scheduling/nodes-scheduler-taints-tolerations.adoc
 // * post_installation_configuration/node-tasks.adoc
 
+:_content-type: PROCEDURE
 [id="nodes-scheduler-taints-tolerations-special_{context}"]
 = Controlling nodes with special hardware using taints and tolerations
 
@@ -21,16 +22,12 @@ For example:
 [source,yaml]
 ----
 spec:
-....
-  template:
-....
-    spec:
-      tolerations:
-      - key: "disktype"
-        value: "ssd"
-        operator: "Equal"
-        effect: "NoSchedule"
-        tolerationSeconds: 3600
+  tolerations:
+    - key: "disktype"
+      value: "ssd"
+      operator: "Equal"
+      effect: "NoSchedule"
+      tolerationSeconds: 3600
 ----
 
 . Taint the nodes that have the specialized hardware using one of the following commands:

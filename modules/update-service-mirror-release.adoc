@@ -1,31 +1,27 @@
-[id="update-service-mirror-release_{context}"]
-= Mirroring the {product-title} image repository
+// Module included in the following assemblies:
+// *updating/updating-restricted-network-cluster/restricted-network-update-osus.adoc
 
-The OpenShift Update Service requires a locally accessible registry containing update release payloads.
+:_content-type: PROCEDURE
+[id="update-service-mirror-release-adm-release-mirror_{context}"]
+= Mirroring images using the oc adm release mirror command
 
 [IMPORTANT]
 ====
-To avoid excessive memory usage by the OpenShift Update Service application, it is recommended that you mirror release images to a separate repository, as described in the following procedure.
+To avoid excessive memory usage by the OpenShift Update Service application, it is required that you mirror release images to a separate repository, as described in the following procedure.
 ====
 
 .Prerequisites
 
 * You reviewed and completed the steps from "Mirroring images for a disconnected installation" up to but not including the section entitled *Mirroring the {product-title} image repository*.
 //TODO: Add xref to preceding step when allowed.
-* You configured a mirror registry to use in your restricted network and can access the certificate and credentials that you configured.
+* You configured a mirror registry to use in your disconnected environment and can access the certificate and credentials that you configured.
 ifndef::openshift-origin[]
-* You downloaded the pull secret from the
-link:https://cloud.redhat.com/openshift/install/pull-secret[Pull Secret] page on the {cloud-redhat-com} site and modified it to include authentication to your mirror repository.
+* You downloaded the {cluster-manager-url-pull} and modified it to include authentication to your mirror repository.
 endif::[]
 ifdef::openshift-origin[]
 * You have created a pull secret for your mirror repository.
 endif::[]
-* If you use self-signed certificates that do not set a Subject Alternative Name, you must precede the `oc` commands in this procedure with `GODEBUG=x509ignoreCN=0`. If you do not set this variable, the `oc` commands will fail with the following error:
-+
-[source,terminal]
-----
-x509: certificate relies on legacy Common Name field, use SANs or temporarily enable Common Name matching with GODEBUG=x509ignoreCN=0
-----
+* If you use self-signed certificates, you have specified a Subject Alternative Name in the certificates.
 
 .Procedure
 
@@ -33,7 +29,7 @@ Complete the following steps on the mirror host:
 
 . Review the
 link:https://access.redhat.com/downloads/content/290/[{product-title} downloads page]
-to determine the version of {product-title} to which you want to upgrade and determine the corresponding tag on the link:https://quay.io/repository/openshift-release-dev/ocp-release?tab=tags[Repository Tags] page.
+to determine the version of {product-title} to which you want to update and determine the corresponding tag on the link:https://quay.io/repository/openshift-release-dev/ocp-release?tab=tags[Repository Tags] page.
 
 . Set the required environment variables:
 .. Export the release version:
@@ -104,12 +100,13 @@ $ RELEASE_NAME="ocp-release"
 +
 For a production release, you must specify `ocp-release`.
 
-.. Export the type of architecture for your server, such as `x86_64`:
+.. Export the type of architecture for your cluster:
 +
 [source,terminal]
 ----
-$ ARCHITECTURE=<server_architecture>
+$ ARCHITECTURE=<cluster_architecture> <1>
 ----
+<1> Specify the architecture of the cluster, such as `x86_64`, `aarch64`, `s390x`, `ppc64le`, or `multi`.
 
 .. Export the path to the directory to host the mirrored images:
 +
@@ -119,9 +116,9 @@ $ REMOVABLE_MEDIA_PATH=<path> <1>
 ----
 <1> Specify the full path, including the initial forward slash (`/`) character.
 
-. Mirror the version images to the internal container registry:
+. Mirror the version images to the mirror registry:
 ** If your mirror host does not have internet access, take the following actions:
-... Connect the removable media to a system that is connected to the Internet.
+... Connect the removable media to a system that is connected to the internet.
 ... Review the images and configuration manifests to mirror:
 +
 [source,terminal]
@@ -137,31 +134,31 @@ $ oc adm release mirror -a ${LOCAL_SECRET_JSON}  \
 ----
 $ oc adm release mirror -a ${LOCAL_SECRET_JSON} --to-dir=${REMOVABLE_MEDIA_PATH}/mirror quay.io/${PRODUCT_REPO}/${RELEASE_NAME}:${OCP_RELEASE}-${ARCHITECTURE}
 ----
-... Export a local temporary repository name:
+... Take the media to the disconnected environment and upload the images to the local container registry:
 +
 [source,terminal]
 ----
-$ TEMP_REPOSITORY='<temp_repository_name>'
+$ oc image mirror -a ${LOCAL_SECRET_JSON} --from-dir=${REMOVABLE_MEDIA_PATH}/mirror "file://openshift/release:${OCP_RELEASE}*" ${LOCAL_REGISTRY}/${LOCAL_REPOSITORY} <1>
 ----
 +
-For `<temp_repository_name>`, specify the name of a temporary repository to create in your
-registry, such as `ocp4/temp`.
-... Take the media to the restricted network environment and upload the images to the temporary repository in the local container registry. By uploading the images to the temporary repository, you can then mirror them to the final repositories so that the release images are mirrored to a separate repository.
+<1> For `REMOVABLE_MEDIA_PATH`, you must use the path where you mounted the removable media.
 +
-[source,terminal]
-----
-$ oc image mirror -a ${LOCAL_SECRET_JSON} --from-dir=${REMOVABLE_MEDIA_PATH}/mirror "file://openshift/release:${OCP_RELEASE}*" ${LOCAL_REGISTRY}/${TEMP_REPOSITORY} <1>
-----
+... Use `oc` command-line interface (CLI) to log in to the cluster that you are upgrading.
+
+... Apply the mirrored release image signature config map to the disconnected cluster:
 +
 [source,terminal]
 ----
-$ oc adm release mirror -a ${LOCAL_SECRET_JSON}  \
-     --from=${LOCAL_REGISTRY}/${TEMP_REPOSITORY} \
-     --to=${LOCAL_REGISTRY}/${LOCAL_REPOSITORY} \
-     --to-release-image=${LOCAL_REGISTRY}/${LOCAL_RELEASE_IMAGES_REPOSITORY}:${OCP_RELEASE}-${ARCHITECTURE}
+$ oc apply -f ${REMOVABLE_MEDIA_PATH}/mirror/config/<image_signature_file> <1>
 ----
+<1> For `<image_signature_file>`, specify the path and name of the file, for example, `signature-sha256-81154f5c03294534.yaml`.
+
+... Mirror the release image to a separate repository:
 +
-<1> For `REMOVABLE_MEDIA_PATH`, you must use the same path that you specified when you mirrored the images.
+[source,terminal]
+----
+$ oc image mirror -a ${LOCAL_SECRET_JSON} ${LOCAL_REGISTRY}/${LOCAL_REPOSITORY}:${OCP_RELEASE}-${ARCHITECTURE} ${LOCAL_REGISTRY}/${LOCAL_RELEASE_IMAGES_REPOSITORY}:${OCP_RELEASE}-${ARCHITECTURE}
+----
 
 ** If the local container registry is connected to the mirror host, push the release images directly to the local registry:
 +

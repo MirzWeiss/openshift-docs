@@ -2,6 +2,7 @@
 //
 // * installing/installing_rhv/installing-rhv-user-infra.adoc
 
+:_content-type: PROCEDURE
 [id="installation-rhv-downloading-ansible-playbooks_{context}"]
 = Downloading the Ansible playbooks
 
@@ -9,17 +10,33 @@ Download the Ansible playbooks for installing {product-title} version {product-v
 
 .Procedure
 
-. On your installation machine, run the following commands:
+* On your installation machine, run the following commands:
 +
-[source,terminal]
+[source,terminal,subs=attributes+]
 ----
 $ mkdir playbooks
-$ cd playbooks
-$ curl -L -X GET https://api.github.com/repos/openshift/installer/contents/upi/ovirt\?ref\=$release-{product-version} |
-grep 'download_url.*\.yml' |
-awk '{ print $2 }' | sed -r 's/("|",)//g' |
-xargs -n 1 curl -O
 ----
++
+[source,terminal,subs=attributes+]
+----
+$ cd playbooks
+----
++
+[source,terminal,subs=attributes+]
+----
+$  xargs -n 1 curl -O <<< '
+        https://raw.githubusercontent.com/openshift/installer/release-{product-version}/upi/ovirt/bootstrap.yml
+        https://raw.githubusercontent.com/openshift/installer/release-{product-version}/upi/ovirt/common-auth.yml
+        https://raw.githubusercontent.com/openshift/installer/release-{product-version}/upi/ovirt/create-templates-and-vms.yml
+        https://raw.githubusercontent.com/openshift/installer/release-{product-version}/upi/ovirt/inventory.yml
+        https://raw.githubusercontent.com/openshift/installer/release-{product-version}/upi/ovirt/masters.yml
+        https://raw.githubusercontent.com/openshift/installer/release-{product-version}/upi/ovirt/retire-bootstrap.yml
+        https://raw.githubusercontent.com/openshift/installer/release-{product-version}/upi/ovirt/retire-masters.yml
+        https://raw.githubusercontent.com/openshift/installer/release-{product-version}/upi/ovirt/retire-workers.yml
+        https://raw.githubusercontent.com/openshift/installer/release-{product-version}/upi/ovirt/workers.yml'
+
+----
+
 
 .Next steps
 

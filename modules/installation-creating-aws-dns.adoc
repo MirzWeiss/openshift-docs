@@ -3,6 +3,7 @@
 // * installing/installing_aws/installing-aws-user-infra.adoc
 // * installing/installing_aws/installing-restricted-networks-aws.adoc
 
+:_content-type: PROCEDURE
 [id="installation-creating-aws-dns_{context}"]
 = Creating networking and load balancing components in AWS
 
@@ -84,7 +85,7 @@ requires:
   }
 ]
 ----
-<1> A short, representative cluster name to use for host names, etc.
+<1> A short, representative cluster name to use for hostnames, etc.
 <2> Specify the cluster name that you used when you generated the
 `install-config.yaml` file for the cluster.
 <3> The name for your cluster infrastructure that is encoded in your Ignition
@@ -159,7 +160,7 @@ the other CloudFormation templates that you run to create your cluster:
 `PrivateHostedZoneId`:: Hosted zone ID for the private DNS.
 `ExternalApiLoadBalancerName`:: Full name of the external API load balancer.
 `InternalApiLoadBalancerName`:: Full name of the internal API load balancer.
-`ApiServerDnsName`:: Full host name of the API server.
+`ApiServerDnsName`:: Full hostname of the API server.
 `RegisterNlbIpTargetsLambda`:: Lambda ARN useful to help register/deregister IP
 targets for these load balancers.
 `ExternalApiTargetGroupArn`:: ARN of external API target group.

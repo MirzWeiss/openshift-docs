@@ -1,12 +1,12 @@
+:_content-type: ASSEMBLY
 [id="sample-applications"]
 = Sample applications
-include::modules/developer-cli-odo-attributes.adoc[]
-include::modules/common-attributes.adoc[]
+include::_attributes/common-attributes.adoc[]
 :context: using-sample-applications
 
 toc::[]
 
-`{odo-title}` offers partial compatibility with any language or runtime listed within the OpenShift catalog of component types. For example:
+`{odo-title}` offers partial compatibility with any language or runtime listed within the {product-title} catalog of component types. For example:
 
 [source,terminal]
 ----
@@ -33,4 +33,5 @@ To access the component over the web, create a URL using `odo url create`.
 
 
 
-include::modules/developer-cli-odo-sample-applications.adoc[leveloffset=+1]
+include::modules/developer-cli-odo-sample-applications-git.adoc[leveloffset=+1]
+include::modules/developer-cli-odo-sample-applications-binary.adoc[leveloffset=+1]

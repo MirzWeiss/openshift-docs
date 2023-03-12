@@ -1,7 +1,4 @@
-// Module included in the following assemblies:
-//
-// applications/application_life_cycle_management/odc-creating-sample-applications.adoc
-
+:_content-type: PROCEDURE
 [id="odc-creating-sample-applications_{context}"]
 = Creating Sample applications
 

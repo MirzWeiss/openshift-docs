@@ -44,14 +44,17 @@ endif::[]
 ifeval::["{context}" == "installing-restricted-networks-bare-metal"]
 :restricted:
 endif::[]
-ifeval::["{context}" == "installing-restricted-networks-bare-metal"]
-:restricted:
-endif::[]
 
+:_content-type: CONCEPT
 [id="installation-load-balancing-user-infra_{context}"]
 = Load balancing requirements for user-provisioned infrastructure
 
 Before you install {product-title}, you must provision the API and application ingress load balancing infrastructure. In production scenarios, you can deploy the API and application ingress load balancers separately so that you can scale the load balancer infrastructure for each in isolation.
+
+[NOTE]
+====
+If you want to deploy the API and application ingress load balancers with a {op-system-base-full} instance, you must purchase the {op-system-base} subscription separately.
+====
 
 The load balancing infrastructure must meet the following requirements:
 
@@ -62,9 +65,9 @@ The load balancing infrastructure must meet the following requirements:
   ** A stateless load balancing algorithm. The options vary based on the load balancer implementation.
 --
 +
-[NOTE]
+[IMPORTANT]
 ====
-Session persistence is not required for the API load balancer to function properly.
+Do not configure session persistence for an API load balancer.
 ====
 +
 Configure the following ports on both the front and back of the load balancers:
@@ -138,6 +141,12 @@ Configure the following ports on both the front and back of the load balancers:
 
 |`80`
 |The machines that run the Ingress Controller pods, compute, or worker, by default.
+|X
+|X
+|HTTP traffic
+
+|`1936`
+|The worker nodes that run the Ingress Controller pods, by default. You must configure the `/healthz/ready` endpoint for the ingress health check probe.
 |X
 |X
 |HTTP traffic
@@ -251,7 +260,7 @@ If you are using HAProxy as a load balancer, you can check that the `haproxy` pr
 
 [NOTE]
 ====
-If you are using HAProxy as a load balancer and SELinux is set to `enforcing`, you must ensure that the HAProxy service can bind to the configured TCP port by running `setsebool -P haproxy_connect_any=1`. 
+If you are using HAProxy as a load balancer and SELinux is set to `enforcing`, you must ensure that the HAProxy service can bind to the configured TCP port by running `setsebool -P haproxy_connect_any=1`.
 ====
 
 ifeval::["{context}" == "installing-ibm-z"]
@@ -264,5 +273,8 @@ ifeval::["{context}" == "installing-restricted-networks-ibm-z"]
 :!restricted:
 endif::[]
 ifeval::["{context}" == "installing-restricted-networks-ibm-power"]
+:!restricted:
+endif::[]
+ifeval::["{context}" == "installing-restricted-networks-bare-metal"]
 :!restricted:
 endif::[]

@@ -1,6 +1,7 @@
+:_content-type: ASSEMBLY
 [id="security-understanding"]
 = Understanding container security
-include::modules/common-attributes.adoc[]
+include::_attributes/common-attributes.adoc[]
 :context: security-understanding
 
 toc::[]
@@ -35,7 +36,7 @@ organization's security standards.
 This guide provides a high-level walkthrough of the container security measures
 available in {product-title}, including solutions for the host layer, the
 container and orchestration layer, and the build and application layer.
-It then points you to specific OpenShift Container Platform documentation to
+It then points you to specific {product-title} documentation to
 help you achieve those security measures.
 
 This guide contains the following information:
@@ -60,6 +61,8 @@ include::modules/security-understanding-containers.adoc[leveloffset=+1]
 
 // What is OpenShift?
 include::modules/security-understanding-openshift.adoc[leveloffset=+1]
+
+[role="_additional-resources"]
 .Additional resources
 * xref:../../architecture/architecture.adoc#architecture[{product-title} architecture]
-* link:https://access.redhat.com/articles/5059881[OpenShift Security Guide]
+* link:https://www.redhat.com/en/resources/openshift-security-guide-ebook[OpenShift Security Guide]

@@ -1,13 +1,17 @@
 // Module included in the following assemblies:
 //
 // * storage/container_storage_interface/persistent_storage-csi.adoc
+// * microshift_storage/container_storage_interface_microshift/microshift-persistent-storage-csi.adoc
+
 
 [id="external-csi-contollers_{context}"]
 = External CSI controllers
 
 External CSI Controllers is a deployment that deploys one or more pods
-with three containers:
+with five containers:
 
+* The snapshotter container watches `VolumeSnapshot` and `VolumeSnapshotContent` objects and is responsible for the creation and deletion of `VolumeSnapshotContent` object.
+* The resizer container is a sidecar container that watches for `PersistentVolumeClaim` updates and triggers `ControllerExpandVolume` operations against a CSI endpoint if you request more storage on `PersistentVolumeClaim` object.
 * An external CSI attacher container translates `attach` and `detach`
 calls from {product-title} to respective `ControllerPublish` and
 `ControllerUnpublish` calls to the CSI driver.
