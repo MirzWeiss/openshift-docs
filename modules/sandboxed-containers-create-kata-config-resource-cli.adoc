@@ -1,6 +1,9 @@
 //Module included in the following assemblies:
 //
 // * sandboxed_containers/deploying_sandboxed_containers.adoc
+ifeval::["{context}" == "deploying-sandboxed-containers-peer-pods"]
+:peerpods:
+endif::[]
 
 :_content-type: PROCEDURE
 [id="sandboxed-containers-create-kataconfig-rsource-cli_{context}"]
@@ -46,6 +49,9 @@ kind: KataConfig
 metadata:
   name: cluster-kataconfig
 spec:
+ifdef::peerpods[]
+  enablePeerPods: true
+endif::peerpods[]
   checkNodeEligibility: false <1>
   logLevel: info
 ----
@@ -60,6 +66,9 @@ kind: KataConfig
 metadata:
   name: cluster-kataconfig
 spec:
+ifdef::peerpods[]
+  enablePeerPods: true
+endif::peerpods[]
   checkNodeEligibility: false
   logLevel: info
   kataConfigPoolSelector:
