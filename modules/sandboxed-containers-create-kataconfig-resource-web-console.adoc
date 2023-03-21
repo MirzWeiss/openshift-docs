@@ -46,6 +46,8 @@ Kata is installed on all worker nodes by default. If you want to install `kata` 
 
 * *`checkNodeEligibility`* (Optional): Select this checkbox to use the Node Feature Discovery Operator (NFD) to detect node eligibility to run `kata` as a `RuntimeClass`. For more information, see "Checking whether cluster nodes are eligible to run {sandboxed-containers-first}".
 
+* *`enablePeerPods`* (For use with peer pods): Select this checkbox to enable peer pods and use {sandboxed-containers-first} in a public cloud environment.
+
 * *`kataConfigPoolSelector`*: By default, `kata` is installed as a `RuntimeClass` on all nodes. If you want to install `kata` as a `RuntimeClass` only on selected nodes, you must add a *matchExpression*:
 +
 .. Expand the *`kataConfigPoolSelector`* area.
