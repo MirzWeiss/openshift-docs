@@ -15,8 +15,9 @@ include::modules/sandboxed-containers-prereqs-peer-pods-azure.adoc[leveloffset=+
 [id="creating-peer-pod-vm-images-for-sandboxed-containers"]
 == Creating peer-pod VM images for {sandboxed-containers-first}
 
-include::modules/sandboxed-containers-creating-peer-pod-vm-images.adoc[leveloffset=+1]
+To use {sandboxed-containers-first} with peer-pods, you must prepare your {product-title} cluster, and create a peer-pod VM image before installing the {sandboxed-containers-operator}. You can install the {sandboxed-containers-operator} using either the web console or OpenShift CLI (`oc`).
 
+include::modules/sandboxed-containers-creating-peer-pod-vm-images.adoc[leveloffset=+1]
 
 [id="deploying-sandboxed-containers-workloads-peer-pods-web-console"]
 == Deploying {sandboxed-containers-first} workloads using peer pods with the web console
