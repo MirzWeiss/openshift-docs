@@ -8,11 +8,8 @@
 
 Before you install {sandboxed-containers-first} and enable peer-pods, you must meet the following requirements:
 
-* You have {product-title} {product-version} installed on AWS.
+* You have {product-title} {product-version} installed on AWS or Azure.
 * You have installed the OpenShift CLI (oc).
-* You have installed git.
-* You have installed podman.
-* You have installed tar.
 * You have access to the cluster as a user with the cluster-admin role.
 
 [id="sandboxed-containers-peer-pods-resource-requirements_{context}"]

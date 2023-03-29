@@ -9,16 +9,23 @@
 If you are using AWS to create peer-pods, you must ensure the following requirements:
 
 * Your {product-title} cluster must be installed on AWS, with at least one worker node.
-* You have access to `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` credentials. These are used to create additional EC2 instances in the same VPC of the cluster.
+* You have access to `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` credentials. These are used to create additional cloud instances in the same virtual private cloud (VPC) of the cluster.
 * You must have the AWS CLI tool installed and configured.
-* You must enable cluster communication on port 15150.
+* You must enable internal cluster communication on ports 15150 and 9000.
 +
-Use the following command to enable internal cluster communication on port 15150:
+You can enable these ports in the AWS web console or using the following commands:
 +
 [source,terminal]
 ----
-$ INSTANCE_ID=$(oc get nodes -l 'node-role.kubernetes.io/worker' -o jsonpath='{.items[0].spec.providerID}' | sed 's#[^ ]*/##g')
-$ AWS_REGION=$(oc get infrastructure/cluster -o jsonpath='{.status.platformStatus.aws.region}')
-$ SG=$(aws ec2 describe-instances --instance-ids ${INSTANCE_ID} --query 'Reservations[*].Instances[*].SecurityGroups[*].GroupId' --region $AWS_REGION)
-$ aws ec2 authorize-security-group-ingress --group-id $SG --protocol tcp --port 15150 --source-group $SG --region $AWS_REGION
+INSTANCE_ID=$(oc get nodes -l 'node-role.kubernetes.io/worker' -o jsonpath='{.items[0].spec.providerID}' | sed 's#[^ ]*/##g')
+
+AWS_REGION=$(oc get infrastructure/cluster -o jsonpath='{.status.platformStatus.aws.region}')
+
+SG=$(aws ec2 describe-instances --instance-ids ${INSTANCE_ID} --query 'Reservations[*].Instances[*].SecurityGroups[*].GroupId' --output text --region $AWS_REGION)
+
+# This is required for peer-pods shim to kata-agent communication
+aws ec2 authorize-security-group-ingress --group-id $SG --protocol tcp --port 15150 --source-group $SG --region $AWS_REGION
+
+# This is required for peer-pods tunnel setup
+aws ec2 authorize-security-group-ingress --group-id $SG --protocol tcp --port 9000 --source-group $SG --region $AWS_REGION
 ----
