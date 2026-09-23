@@ -98,13 +98,16 @@ $ oc wait mcp worker --for condition=Updated=True --timeout=-1s
 * Web console
 +
 . In the {product-title} web console, go to *Virtualization* -> *Settings*.
-. Click *Cluster*.
-. Expand *Memory Density*.
-. Turn on *Configure memory density*.
-. Expand the *Current memory density* line.
-. Set the density value by moving the *Requested memory density* slider. You can increase the density from 100% up to 400% in increments of 25%.
+. Click the *Cluster* tab.
+. Expand *General settings*.
+. Expand *Memory request ratio*.
+. In the *Request ratio* field, enter a value from 25 to 100. To apply the same overcommit rate as the CLI example that follows, enter `67`.
 +
-The *Memory density* field shows the actual and requested values.
+The request ratio is the percentage of each virtual machine's configured memory that the cluster requests. A lower ratio increases overcommitment. At a ratio of 25%, a VM configured with 4 GiB of memory requests 1 GiB on the cluster. At a ratio of 100%, it requests the full 4 GiB.
++
+The web console indicates the level of risk for the value you enter: *Recommended* at 75% or greater, *Use with caution* from 50% to 74.9%, and *High overcommit risk* from 25% to 49.9%.
++
+The *Active ratio* line shows the ratio currently calculated across all virtual machines on the cluster, which can differ from the ratio you request. It shows `No running VMs` if no virtual machines are running.
 . Click *Save*.
 
 * CLI
